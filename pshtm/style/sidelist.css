@@ -1,0 +1,112 @@
+body {
+    min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 5px;
+}
+
+.userlist {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 27%;
+    background: #fff7;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5px 0 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.scrollbox {
+    overflow: auto;
+    padding-right: 5px;
+}
+
+.scard {
+    background: #fff;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 8px;
+    border-radius: 7px;
+    margin: 7px;
+
+}
+
+.scard a {
+    text-decoration: none;
+    color: #000;
+}
+
+.scard .content {
+    display: flex;
+    align-items: center;
+
+}
+
+.scard .content img {
+    object-fit: cover;
+    border-radius: 50%;
+    height: 65px;
+    width: 65px;
+    margin-left: 5px;
+}
+
+.scard .content .detail {
+    margin-left: 10px;
+    color: #000;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+
+.scard .content .detail span {
+    font-size: 18px;
+    font-weight: 500;
+}
+.bns{
+    margin-top: 5px;
+}
+.bns a{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 3px;
+
+}
+.show1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.show{
+    position: fixed;
+    bottom: 0%;
+    background: #efefef;
+    padding-left: 150px;
+    padding-right: 150px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 8px;
+}
+.show a{
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 8px;
+
+}
+
+.show-all{
+    background: transparent;
+    border: none;
+}
