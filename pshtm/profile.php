@@ -50,7 +50,7 @@ $t = "t";
 
         <section class="userProfile card">
             <div class="profile">
-                <figure><img src="img/<?php echo $row['emp_image']; ?>" alt="profile" width="250px" height="250px">
+                <figure><img src="img/user1.png" alt="profile" width="250px" height="250px">
                 </figure>
             </div>
         </section>

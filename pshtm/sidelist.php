@@ -32,7 +32,7 @@ include('connect.php');
             
                     $emp_email = $row['emp_email'];
                     $emp_phone = $row['emp_mobile'];
-                    $emp_image = $row['emp_image'];
+                    // $emp_image = $row['emp_image'];
             
             
                     $select_query1 = "SELECT department_name FROM department WHERE department_id=$emp_department_id";
@@ -54,7 +54,7 @@ include('connect.php');
                     <div class="scard">
                         <div class="content">
                         <a href="profile.php?emp_id='.$emp_id.'">
-                            <img src="db_img/' . $emp_image . '" alt="">
+                            <img src="img/user1.png" alt="">
                         </a>
                             <div class="detail">
                                 <span>' . $emp_first_name . ' ' . $emp_last_name . '</span>

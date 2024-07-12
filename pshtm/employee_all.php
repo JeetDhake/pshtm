@@ -83,7 +83,7 @@ include('connect.php');
 
         $emp_email = $row['emp_email'];
         $emp_phone = $row['emp_mobile'];
-        $emp_image = $row['emp_image'];
+        // $emp_image = $row['emp_image'];
 
 
         $select_query1 = "SELECT department_name FROM department WHERE department_id=$emp_department_id";
@@ -105,7 +105,7 @@ include('connect.php');
         echo '
             <a href="profile.php?emp_id='.$emp_id.'">
                 <div class="card-container">
-                    <img class="round" src="db_img/' . $emp_image . '" alt="user" />
+                    <img class="round" src="img/user1.png" alt="user" />
                     <h3>' . $emp_first_name . ' ' . $emp_last_name . '</h3>
 
                     <p>' . $emp_email . ' ' . $emp_phone . '</p>
