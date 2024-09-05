@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #d7d7d7;
+	font-family: Montserrat, sans-serif;
+	
+
+
+	min-height: 100vh;
+	margin: 0;
+}
+a:-webkit-any-link{
+    text-decoration: none;
+}
+.all{
+    display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+    flex-wrap: wrap;
+}
+.all a{
+    text-decoration: none;
+    color: #0009;
+    margin: 10px;
+}
+h3 {
+	margin: 10px 0;
+}
+
+h6 {
+	margin: 5px 0;
+	text-transform: uppercase;
+}
+
+p {
+	font-size: 14px;
+	line-height: 21px;
+}
+
+.card-container {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);
+	color: #0009;
+	padding-top: 15px;
+	padding-bottom: 25px;
+	position: relative;
+	width: 350px;
+	max-width: 100%;
+	text-align: center;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+.card-container p, h6{
+	margin-bottom: 8px;
+}
+
+.card-container .pro {
+	color: #231E39;
+	background-color: #FEBB0B;
+	border-radius: 3px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 3px 7px;
+	position: absolute;
+	top: 30px;
+	left: 30px;
+}
+
+.card-container .round {
+	border: 1px solid #03BFCB;
+	border-radius: 50%;
+	padding: 7px;
+    width: 150px;
+}
+
+button:hover{
+	background-color: #00e3f3;
+	border: 1px solid #03BFCB;
+	border-radius: 3px;
+	color: #231E39;
+	font-family: Montserrat, sans-serif;
+	font-weight: 500;
+	padding: 10px 25px;
+}
+
+button{
+	background-color: transparent;
+	color: #02899C;
+
+    border: 1px solid #03BFCB;
+	border-radius: 3px;
+
+	font-family: Montserrat, sans-serif;
+	font-weight: 500;
+	padding: 10px 25px;
+}
+
+.skills {
+	background-color: #1695af;
+	text-align: left;
+	padding: 15px;
+	margin-top: 20px;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.skills ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.skills ul li {
+	border: 1px solid #ffffff;
+	border-radius: 5px;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+}
+.skills ul li:hover{
+    background: #fff;
+    color: #555;
+}
+

@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins', sans-serif;
+    box-sizing: border-box;
+}
+body{
+    top: 0;
+    padding: 0px;
+
+}
+.main_div{
+    padding: 30px 320px;
+    
+}
+
+.apf{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 95vh;
+    background: #f7f7f7;
+
+}
+
+.wrapper{
+    background: #fff;
+    width: 650px;
+    border-radius: 16px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
+}
+
+
+.pst{
+    padding: 25px 30px;
+
+}
+.pst header{
+    font-size: 25px;
+    font-weight: 600;
+    border-bottom: 1px solid #e6e6e6;
+}
+.pst form{
+    margin: 20px 0;
+
+}
+.in{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    justify-content: space-around;
+
+}
+.in .fld1 input, select{
+    width: 100%;
+}
+
+.pst form .pdetail .f{
+    display: flex;
+    justify-content: space-between;
+}
+.pst form .pdetail .f input, select{
+    width: 280px;
+}
+
+
+.pst form .fld{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    position: relative;
+
+}
+.pst form .fld select{
+    color: #555;
+}
+.pst form .fld input, select{
+    height: 40px;
+
+    font-size: 16px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    margin: 1px;
+}
+.pst form .img input{
+    font-size: 16px;
+
+}
+.pst form .btn input{
+    margin-top: 8px;
+    height: 42px;
+    border: 1px solid rgb(0, 208, 255);
+    font-size: 17px;
+    font-weight: 500;
+    background: rgb(224, 246, 255);
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.pst form .btn input:hover{
+    border: 1px solid #333;
+    color: #333;
+    background: rgb(255, 255, 255);
+}
+.pst form .fld i{
+    position: absolute;
+    right: 15px;
+    color: #333;
+    top: 65%;
+    transform:translateY(-50%);
+    cursor: pointer;
+}
+.pst form .fld i.active::before{
+    color: #333;
+    content: "\f070";
+}
+
+
+::-webkit-file-upload-button{
+    border: 1px solid #333;
+    background-color: #fff;
+    color: #555;
+    border-radius: 3px;
+
+}
+#drop{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 170px;
+    width: 278px;
+    font-size: 16px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    margin: 1px;
+}
+#img-view{
+    width: 278px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-position: center;
+    background-size: cover;
+    flex-direction: column;
+}
+#img-view i{
+    position: unset;
+}
+#img-view p{
+    color: #555;
+}
+

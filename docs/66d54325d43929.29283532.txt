@@ -1,0 +1,21 @@
+git init
+git status -s (-s for detail stage of each file)
+git add file.ext (single file stage)
+git add -A (stage all file) mandatory for below both
+git commit -m "msg" (commit all staged file)
+git commit -a -m "msg" (commit all file without staging)
+
+git checkout file.ext (revert back to last commit)
+git checkout file.ext -f (revert back all files to last commit)
+
+git log (view all commit)
+git diff --staged (compare last commit to current staged file)
+
+touch file.ext (create file)
+git rm --cached file.xt (remove file from stage)
+git rm file.xt (delete file)
+
+touch .gitignore
+
+git remote add origin (repository link github)
+git push origin master
