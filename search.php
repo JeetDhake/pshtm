@@ -19,7 +19,7 @@ if (pg_num_rows($sql) > 0) {
     
             $emp_email = $row['emp_email'];
             $emp_phone = $row['emp_mobile'];
-            $emp_image = $row['emp_image'];
+          
     
     
             $select_query1 = "SELECT department_name FROM department WHERE department_id=$emp_department_id";
@@ -43,7 +43,7 @@ if (pg_num_rows($sql) > 0) {
                     <a href="">
         <div class="card-container">
 
-            <img class="round" src="db_img/' . $emp_image . '" alt="user" />
+            <img class="round" src="img/user1.png" alt="user" />
             <h3>' . $emp_first_name . ' ' . $emp_last_name . '</h3>
             <h6>Department: ' . $emp_department . '</h6>
             <h6>Job post: ' . $emp_job_post . '</h6>

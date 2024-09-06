@@ -1,7 +1,10 @@
 <?php 
     session_start();
-    if(isset($_SESSION['admin_id']) || isset($_SESSION['trainer_id'])){
+    if(isset($_SESSION['admin_id'])){
         header("location: dashboard.php");
+    }
+    if(isset($_SESSION['trainer_id'])){
+        header("location: dashboard2.php");
     }
 ?>
 

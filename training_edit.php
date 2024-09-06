@@ -1,6 +1,11 @@
 <?php
-
 include('connect.php');
+
+session_start();
+if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
+    header("location: admin_login.php");
+}
+
 $tr_id = $_GET['training_program_id'];
 
 $insert = "SELECT * FROM create_training_programs WHERE training_program_id=$tr_id";

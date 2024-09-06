@@ -1,6 +1,9 @@
 <?php
 include('connect.php');
-
+session_start();
+if (!isset($_SESSION['admin_id'])) {
+    header("location: admin_login.php");
+}
 
 $department_id = isset($_GET['department_id']) ? (int)$_GET['department_id'] : null;
 

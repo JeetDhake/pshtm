@@ -1,5 +1,9 @@
 <?php
 include('connect.php');
+session_start();
+if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
+    header("location: admin_login.php");
+}
 
 $emp_id = $_GET['emp_id'];
 $training_program_id = $_GET['training_program_id'];

@@ -209,37 +209,37 @@ if (!isset($_SESSION['admin_id'])) {
         <div class="two">
             <div class="block1">
                 <div class="bx3">
-               
 
-                <?php
-$nm = array();
-$cr = array();
-$ep = array();
 
-$select_query = "SELECT * FROM training_reports";
-$result_query = pg_query($conn, $select_query);
+                    <?php
+                    $nm = array();
+                    $cr = array();
+                    $ep = array();
 
-while ($row = pg_fetch_assoc($result_query)) {
-    $tr_id = $row['training_program_id'];
+                    $select_query = "SELECT * FROM training_reports";
+                    $result_query = pg_query($conn, $select_query);
 
-    // Fetch program name only once (assuming each training program has one name)
-    $select_query1 = "SELECT name FROM create_training_programs WHERE training_program_id=$tr_id LIMIT 1";
-    $result_query1 = pg_query($conn, $select_query1);
-    $row1 = pg_fetch_assoc($result_query1);
-    if ($row1) {
-        $nm[] = $row1['name'];
-    }
+                    while ($row = pg_fetch_assoc($result_query)) {
+                        $tr_id = $row['training_program_id'];
 
-    // Fetch average employee performance
-    $select_query4 = "SELECT AVG(employee_performance) AS alp FROM employee_reports WHERE training_program_id=$tr_id";
-    $result_query4 = pg_query($conn, $select_query4);
-    while ($row4 = pg_fetch_assoc($result_query4)) {
-        $ep[] = $row4['alp'];
-    }
+                        // Fetch program name only once (assuming each training program has one name)
+                        $select_query1 = "SELECT name FROM create_training_programs WHERE training_program_id=$tr_id LIMIT 1";
+                        $result_query1 = pg_query($conn, $select_query1);
+                        $row1 = pg_fetch_assoc($result_query1);
+                        if ($row1) {
+                            $nm[] = $row1['name'];
+                        }
 
-    $cr[] = $row["completion_rate"];
-}
-?>
+                        // Fetch average employee performance
+                        $select_query4 = "SELECT AVG(employee_performance) AS alp FROM employee_reports WHERE training_program_id=$tr_id";
+                        $result_query4 = pg_query($conn, $select_query4);
+                        while ($row4 = pg_fetch_assoc($result_query4)) {
+                            $ep[] = $row4['alp'];
+                        }
+
+                        $cr[] = $row["completion_rate"];
+                    }
+                    ?>
 
 
 
@@ -335,39 +335,39 @@ while ($row = pg_fetch_assoc($result_query)) {
         </div>
 
 
-            <div class="top">
-                <h3>Top training Programs</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="t1">Training Program</th>
-                            <th>Participation</th>
-                            <th>Completion rate</th>
-                            <th>Performance</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $select_query = "SELECT * FROM training_reports ORDER BY completion_rate DESC, participation DESC LIMIT 5";
-                        $result_query = pg_query($conn, $select_query);
+        <div class="top">
+            <h3>Top training Programs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="t1">Training Program</th>
+                        <th>Participation</th>
+                        <th>Completion rate</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $select_query = "SELECT * FROM training_reports ORDER BY completion_rate DESC, participation DESC LIMIT 5";
+                    $result_query = pg_query($conn, $select_query);
 
-                        while ($row = pg_fetch_assoc($result_query)) {
+                    while ($row = pg_fetch_assoc($result_query)) {
 
-                            $tr_id = $row['training_program_id'];
-                            $ptx = $row["participation"];
-                            $crx = $row["completion_rate"];
+                        $tr_id = $row['training_program_id'];
+                        $ptx = $row["participation"];
+                        $crx = $row["completion_rate"];
 
 
-                            $select_query1 = "SELECT * FROM create_training_programs WHERE training_program_id=$tr_id";
-                            $result_query1 = pg_query($conn, $select_query1);
-                            while ($row1 = pg_fetch_assoc($result_query1)) {
-                                $nmx = $row1['name'];
+                        $select_query1 = "SELECT * FROM create_training_programs WHERE training_program_id=$tr_id";
+                        $result_query1 = pg_query($conn, $select_query1);
+                        while ($row1 = pg_fetch_assoc($result_query1)) {
+                            $nmx = $row1['name'];
 
-                                $select_query3 = "SELECT AVG(employee_performance) AS epx FROM employee_reports WHERE training_program_id=$tr_id";
-                                $result_query3 = pg_query($conn, $select_query3);
-                                while ($row3 = pg_fetch_assoc($result_query3)) {
-                                    $epx = $row3['epx'];
-                                    echo '
+                            $select_query3 = "SELECT AVG(employee_performance) AS epx FROM employee_reports WHERE training_program_id=$tr_id";
+                            $result_query3 = pg_query($conn, $select_query3);
+                            while ($row3 = pg_fetch_assoc($result_query3)) {
+                                $epx = $row3['epx'];
+                                echo '
                             <tr>
                                 <td>' . $nmx . '</td>
                                 <td>' . $ptx . '</td>
@@ -375,19 +375,19 @@ while ($row = pg_fetch_assoc($result_query)) {
                                 <td>' . $epx . '</td>
                             </tr>
                             ';
-                                }
                             }
                         }
-                        ?>
+                    }
+                    ?>
 
-                    </tbody>
-                </table>
-                <a href="">Show all</a>
-            </div>
-
-
-
+                </tbody>
+            </table>
+            <a href="">Show all</a>
         </div>
+
+
+
+    </div>
 
 
 </body>

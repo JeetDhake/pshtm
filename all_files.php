@@ -1,6 +1,11 @@
 <?php
 
 include('connect.php');
+
+session_start();
+if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
+    header("location: admin_login.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

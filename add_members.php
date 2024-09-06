@@ -1,10 +1,10 @@
 <?php
 include('connect.php');
 session_start();
-
-if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
+if (!isset($_SESSION['admin_id'])) {
     header("location: admin_login.php");
 }
+
 
 if (isset($_POST['submit'])) {
     $trainer_id = (int)$_POST['trainer_id'];

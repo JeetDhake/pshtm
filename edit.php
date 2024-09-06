@@ -1,6 +1,9 @@
 <?php
 include('connect.php');
-
+session_start();
+if (!isset($_SESSION['admin_id'])) {
+    header("location: admin_login.php");
+}
 $employee_id = isset($_GET['emp_id']) ? (int)$_GET['emp_id'] : null;
 
 if ($employee_id !== null) {
@@ -14,7 +17,7 @@ if ($employee_id !== null) {
        
         $existing_emp_email = $row['emp_email'];
         $existing_emp_phone = $row['emp_mobile'];
-        $existing_emp_image = $row['emp_image'];
+     
     } else {
         echo "Employee not found.";
         exit();

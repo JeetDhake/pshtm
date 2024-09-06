@@ -1,6 +1,9 @@
 <?php
 include('connect.php');
-
+session_start();
+if (!isset($_SESSION['admin_id'])) {
+    header("location: admin_login.php");
+}
 
 $job_post_id = isset($_GET['job_post_id']) ? (int)$_GET['job_post_id'] : null;
 
@@ -58,7 +61,7 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/b9323f08fd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style/edit.css">
-    <title>Edit Training</title>
+    <title>Edit Jobpost</title>
 </head>
 <body>
     <?php require_once("navbar.html") ?>

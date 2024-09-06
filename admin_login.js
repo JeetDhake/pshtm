@@ -1,5 +1,4 @@
 
-
 const pf = document.querySelector(".login input[type='password']"),
 togglebtn = document.querySelector(".login .field i");
 
@@ -13,10 +12,6 @@ togglebtn.onclick = ()=>{
         togglebtn.classList.remove("active");
     }
 }
-
-
-
-
 
 
 const form  = document.querySelector(".login form"),
@@ -54,10 +49,6 @@ conbtn.onclick = ()=>{
 }
 
 
-
-
-
-
 const formx  = document.querySelector(".loginx form"),
 conbtnx = formx.querySelector(".btn input"),
 errtxtx = formx.querySelector(".error");
@@ -91,7 +82,3 @@ conbtnx.onclick = ()=>{
     let formDatax = new FormData(formx);
     xhrx.send(formDatax);
 }
-
-
-
-

@@ -82,7 +82,11 @@ body{
     background: #f7f7f7;
     height: 100vh;
 }
-
+.full-shelf{
+    background: #f7f7f7;
+    height: 100vh;
+    padding: 20px 50px 20px 50px;
+}
 
 .lib {
     display: flex;
