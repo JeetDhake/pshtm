@@ -62,6 +62,7 @@ include('connect.php');
 
                         <div class="fld">
                             <h5>Department:</h5>
+                            <h3>
                             <?php
                             foreach ($department_id_ar as $dept_id) {
                                 $select_query1 = "SELECT DISTINCT department_name FROM department WHERE department_id=$dept_id";
@@ -69,13 +70,11 @@ include('connect.php');
 
                                 while ($row8 = pg_fetch_assoc($result_query1)) {
                                     $emp_departmentx = $row8['department_name'];
-                                    echo '<h3>
-                                        '.$emp_departmentx.'
-                                        </h3><nobr> ';
+                                    echo $emp_departmentx . ", ";
                                 }
                             }
                             ?>
-                            
+                            </h3>
                         </div>
 
                     </div>

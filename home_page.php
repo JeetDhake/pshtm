@@ -59,7 +59,7 @@ while ($row11 = pg_fetch_assoc($res11)) {
             ?>
 
 
-                            <div class="train">
+                            <div class="train" id="<?php echo $tr_id; ?>">
                                 <div class="cont">
                                     <div class="lf">
                                         <h2><?php echo $row2['name']; ?></h2>
@@ -68,8 +68,8 @@ while ($row11 = pg_fetch_assoc($res11)) {
                                         <h4><?php echo $row2['training_desc']; ?></h4>
                                     </div>
                                     <div class="rg">
-                                        <button onclick ="action('pre')" class="btnx">Pre Exam</button>
-                                        <button onclick = "action('post')" class="btnx">Post Exam</button>
+                                        <button onclick ="action('pre', <?php echo $tr_id; ?>)" class="btnx">Pre Exam</button>
+                                        <button onclick = "action('post', <?php echo $tr_id; ?>)" class="btnx">Post Exam</button>
                                     </div>
                                 </div>
                             </div>
@@ -88,10 +88,9 @@ while ($row11 = pg_fetch_assoc($res11)) {
         </div>
     </div>
     <script>
-        function action(type) {
+        function action(type, tr_id) {
             const emp_id = <?php echo $emp_id; ?>;
-
-            const url = `exam.php?emp_id=${encodeURIComponent(emp_id)}&prepost=${encodeURIComponent(type)}`;
+            const url = `exam.php?emp_id=${encodeURIComponent(emp_id)}&prepost=${encodeURIComponent(type)}&tr_id=${encodeURIComponent(tr_id)}`;
 
             window.location.href = url;
         }
