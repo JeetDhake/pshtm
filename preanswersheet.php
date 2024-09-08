@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
+if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id']) && !isset($_SESSION['emp_id'])) {
     header("location: admin_login.php");
 }include('connect.php');
 
@@ -56,9 +56,9 @@ $training_program_id = $_GET['training_program_id'];
                             while ($row = pg_fetch_assoc($result_query)) {
                                 $emp_first_name = $row['emp_first_name'];
                                 $emp_last_name = $row['emp_last_name'];
-                                $emp_id = $row['emp_id'];
+                                $emp_uid = $row['emp_uid'];
 
-                                echo "<p>" . $emp_id . "</p>";
+                                echo "<p>" . $emp_uid . "</p>";
                             }
 
                             ?>
@@ -70,7 +70,7 @@ $training_program_id = $_GET['training_program_id'];
 
         $tr_id = $_GET['training_program_id'];
 
-        $select_query = "SELECT * FROM question_details WHERE training_program_id=$tr_id";
+        $select_query = "SELECT * FROM questions WHERE training_program_id=$tr_id";
         $result_query = pg_query($conn, $select_query);
 
         while ($row = pg_fetch_assoc($result_query)) {
@@ -79,18 +79,27 @@ $training_program_id = $_GET['training_program_id'];
             $ques_id = $row['ques_id'];
             $question = $row['que_text'];
 
+            $opt_tx1 = $row['option_1'];
+            $opt_tx2 = $row['option_2'];
+            $opt_tx3 = $row['option_3'];
+            $opt_tx4 = $row['option_4'];    
 
             $sql = "SELECT * FROM pre_student_ans WHERE emp_id=$emp_id AND ques_id = $ques_id";
             $result = pg_query($conn, $sql);
 
             while ($rowx = pg_fetch_assoc($result)) {
                 $answer = $rowx['pre_student_ans'];
-                $opt = $rowx['option'];
+            
 
                 echo '
                 <div class="inpbx">
                     <label for="">' . $question . '</label>
-                    <p>Ans: '.$opt.') ' . $answer . '</p>
+                    <p> a) ' . $opt_tx1 . '</p>
+                    <p> b) ' . $opt_tx2 . '</p>
+                    <p> c) ' . $opt_tx3 . '</p>
+                    <p> d) ' . $opt_tx4 . '</p>
+                    <br>
+                    <p>User Answer: ' . $answer . '</p>
                 </div>
                 ';
             }

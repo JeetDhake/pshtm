@@ -30,9 +30,9 @@ $t = "t";
             <?php
 
 
-            if (isset($_GET['emp_id'])) {
+            if (isset($_SESSION['emp_id'])) {
 
-                $emp_id = $_GET['emp_id'];
+                $emp_id = $_SESSION['emp_id'];
                 $sql = pg_query($conn, "SELECT * FROM employee_records WHERE emp_id = $emp_id");
                 if (pg_num_rows($sql) > 0) {
                     $row = pg_fetch_assoc($sql);
@@ -97,9 +97,9 @@ $t = "t";
 
             <div class="skills">
                 <h1 class="heading">Trainings History</h1>
-                <ul>
+                <ul class="scrollable-list">
                     <?php
-                    $sqlx = pg_query($conn, "SELECT DISTINCT * FROM emp_training_relation WHERE emp_id = $emp_id");
+                    $sqlx = pg_query($conn, "SELECT DISTINCT * FROM employee_reports WHERE emp_id = $emp_id");
                     while ($rowx = pg_fetch_assoc($sqlx)) {
                         $training_program_id = $rowx['training_program_id'];
 
@@ -176,7 +176,7 @@ $t = "t";
             <div class="contact_Info" id="space">
                 <?php
 
-                $sqlx = pg_query($conn, "SELECT DISTINCT * FROM emp_training_relation WHERE emp_id = $emp_id");
+                $sqlx = pg_query($conn, "SELECT DISTINCT * FROM employee_reports WHERE emp_id = $emp_id");
                 while ($rowx = pg_fetch_assoc($sqlx)) {
                     $training_program_id = $rowx['training_program_id'];
 
@@ -244,16 +244,16 @@ $t = "t";
                 );
               </script>
 
-              <h1 class="heading">questionnaire1_result: ' . $q1 . '</h1><br>
-              <h1 class="heading">Performance: ' . $emp_p . '</h1><br>
-              <h1 class="heading">Progress: growth rate: +</h1><br>
+              <h1 class="heading">questionnaire1_result: ' . number_format($q1, 2) . '</h1><br>
+              <h1 class="heading">Performance: ' . number_format($emp_p, 2) . '</h1><br>
+              
 
               </div>';
 
                         // Print the second chart
                         echo '
                         <div class="inbx">
-                        <div class="chartbox">
+                        <div class="cbx">
                 <canvas id="' . $canvas_id2 . '"></canvas>
               </div>';
 
@@ -287,7 +287,7 @@ $t = "t";
               </script>';
 
                         // Additional information
-                        echo '<h1 class="heading">questionnaire1_result: ' . $q2 . '</h1><br>
+                        echo '<h1 class="heading">questionnaire2_result: ' . number_format($q2, 2) . '</h1><br>
               ';
 
                         // Links to answer sheets

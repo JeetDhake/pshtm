@@ -87,7 +87,7 @@ if (!isset($_SESSION['admin_id'])) {
                                 } else {
                                     echo '
                             <h2>Performance</h2>
-                            <h1>' . $epavg . '</h1>
+                            <h1>' . $epavg . '%</h1>
                             ';
                                 }
                             }
@@ -121,7 +121,8 @@ if (!isset($_SESSION['admin_id'])) {
                             while ($rowX = pg_fetch_assoc($result)) {
                                 $qa1 = $rowX['questionnaire1_result'];
                                 $qa2 = $rowX['questionnaire2_result'];
-                                $av = $qa2 - $qa1;
+                                $av = ($qa2 - $qa1);
+                                
                                 $xx[] = $av;
                             }
 
@@ -129,9 +130,10 @@ if (!isset($_SESSION['admin_id'])) {
                                 echo '<h2>Growth Rate</h2>
                         <h5>No Data Available</h5>';
                             } else {
-                                $xx1 = array_sum($xx) / count($xx);
+                                $xxx = array_sum($xx) / count($xx);
+                                $xx1 = number_format($xxx, 2);
                                 echo '<h2>Growth Rate</h2>
-                        <h1>' .  $xx1 . '</h1>';
+                        <h1>' .  $xx1 . '+ </h1>';
                             }
 
                             ?>

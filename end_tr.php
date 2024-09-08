@@ -17,7 +17,7 @@ if (isset($_POST['submit'])) {
     $participation = $_POST['participation'];
     $completion_rate = $_POST['completion_rate'];
 
-    $emp_id = $_POST['emp_id'];
+    
 
 
     $tr_image = $_FILES['tr_image']['name'];
@@ -27,7 +27,7 @@ if (isset($_POST['submit'])) {
     $fileactext = strtolower(end($fileextention));
     $filenewname = uniqid('', true) . "." . $fileactext;
 
-    if ($training_program_id == '' ||  $start_date == '' || $end_date == '' || $attendance == '' || $completion_rate == '' || $participation == '' || $emp_id == '') {
+    if ($training_program_id == '' ||  $start_date == '' || $end_date == '' || $attendance == '' || $completion_rate == '' || $participation == '') {
         echo "<script>
             alert('enter all fields')
             </script>";
@@ -53,16 +53,16 @@ if (isset($_POST['submit'])) {
             die("Error: " . pg_last_error($conn));
         }
 
-        foreach ($emp_id as $emplist) {
-            $insert1 = "INSERT INTO emp_training_relation(emp_id, training_program_id) VALUES ( $emplist, $training_program_id)";
-            $result_query1 = pg_query($conn, $insert1);
-        }
+        // foreach ($emp_id as $emplist) {
+        //     $insert1 = "INSERT INTO emp_training_relation(emp_id, training_program_id) VALUES ( $emplist, $training_program_id)";
+        //     $result_query1 = pg_query($conn, $insert1);
+        // }
 
-        if (!$result_query1) {
-            die("Error: " . pg_last_error($conn));
-        }
+        // if (!$result_query1) {
+        //     die("Error: " . pg_last_error($conn));
+        // }
 
-        if ($result_query && $result_query1 && $result_query2 ) {
+        if ($result_query && $result_query2) {
 
             echo "<script>
                 alert('Training Ended successfully')
@@ -99,14 +99,18 @@ if (isset($_POST['submit'])) {
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="pdetail">
 
+                        
+
                         <div class="fld">
 
+                        </div>
+
+                        <div class="fld">
                             <label for="">Training Title</label>
                             <select name="training_program_id">
                                 <option value="">Select Training</option>
 
                                 <?php
-
                                 $select_query = "SELECT * FROM create_training_programs";
                                 $result_query = pg_query($conn, $select_query);
 
@@ -116,32 +120,7 @@ if (isset($_POST['submit'])) {
 
                                     echo "<option value='$training_program_id'>$training_name</option>";
                                 }
-
-                                ?>
-                            </select>
-                        </div>
-
-                        <div class="fld">
-
-                        </div>
-
-                        <div class="fld">
-                            <label for="">employee</label>
-                            <select name="emp_id[]" id="emp_id" multiple>
-                                <option value="">Select Employees</option>
-
-                                <?php
-
-                                $select_query = "SELECT * FROM employee_records";
-                                $result_query = pg_query($conn, $select_query);
-
-                                while ($row = pg_fetch_assoc($result_query)) {
-                                    $employee_first_name = $row['emp_first_name'];
-                                    $employee_last_name = $row['emp_last_name'];
-                                    $employee_id = $row['emp_id'];
-
-                                    echo "<option value='$employee_id'>$employee_first_name $employee_last_name</option>";
-                                }
+                                
 
                                 ?>
                             </select>

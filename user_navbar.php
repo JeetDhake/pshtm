@@ -30,7 +30,7 @@
                 <i class="fa-solid fa-right-from-bracket fa-lg"></i>
             </a>
 
-            <a href="user_profile.php?emp_id=<?php echo $emp_id; ?>">
+            <a href="user_profile.php">
                 <img src="img/user1.png" alt="user" class="user">
             </a>
 

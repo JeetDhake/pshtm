@@ -1,5 +1,10 @@
 <?php
 include('connect.php');
+session_start();
+if (!isset($_SESSION['emp_id'])) {
+    header("location: user_login.php");
+}
+$empid = $_SESSION['emp_id'];
 
 if (isset($_GET['tr_id'])) {
     $tr_id = $_GET['tr_id'];
@@ -24,48 +29,47 @@ if (isset($_GET['tr_id'])) {
 </head>
 
 <body>
-<?php
-$flag = false;
-if (isset($_GET['emp_id']) && isset($_GET['prepost'])) {
-    $empid = $_GET['emp_id'];
-    $xam = $_GET['prepost'];
+    <?php
+    $flag = false;
+    if (isset($_GET['prepost'])) {
 
-    if ($xam == "post") {
-        $sqly = "SELECT * FROM employee_reports WHERE employee_performance IS NULL AND emp_id = $empid AND training_program_id = $tr_id";
-        $resy = pg_query($conn, $sqly);
-        if (pg_num_rows($resy) > 0) {
-            //can give post
-            $flag = true;
+        $xam = $_GET['prepost'];
+
+        if ($xam == "post") {
+            $sqly = "SELECT * FROM employee_reports WHERE employee_performance IS NULL AND emp_id = $empid AND training_program_id = $tr_id";
+            $resy = pg_query($conn, $sqly);
+            if (pg_num_rows($resy) > 0) {
+                //can give post
+                $flag = true;
+            }
+        }
+
+        if ($xam == "pre") {
+            $sqly = "SELECT COUNT(*) AS total FROM employee_reports WHERE emp_id = $empid AND training_program_id = $tr_id";
+            $resy = pg_query($conn, $sqly);
+
+            $rowy = pg_fetch_assoc($resy);
+            if ($rowy['total'] == 0) {
+                //can give pre
+                $flag = true;
+            }
         }
     }
-   
-    if ($xam == "pre") {
-        $sqly = "SELECT COUNT(*) AS total FROM employee_reports WHERE emp_id = $empid AND training_program_id = $tr_id";
-        $resy = pg_query($conn, $sqly);
-
-        $rowy = pg_fetch_assoc($resy);
-        if ($rowy['total'] == 0) {
-            //can give pre
-            $flag = true;
-        }
-    }
-    
-}
-?>
+    ?>
     <div class="bxp container">
         <div class="console">
             <div class="outin">
                 <?php
-                if($flag){
-                    
+                if ($flag) {
+
                 ?>
-                
-                <form action="" method="POST" enctype="multipart/form-data">
-                    <div id="output1" class="outp1">
-                        <div class="inpbx">
-                            <label for=""><?php echo $rowx['name']; ?></label>
-                        </div>
-                        <!-- <div class="inpbx">
+
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <div id="output1" class="outp1">
+                            <div class="inpbx">
+                                <label for=""><?php echo $rowx['name']; ?></label>
+                            </div>
+                            <!-- <div class="inpbx">
                             <label for="">Employee id</label>
 
                             <select name="empid">
@@ -89,7 +93,7 @@ if (isset($_GET['emp_id']) && isset($_GET['prepost'])) {
                         </div> -->
 
 
-                        <!-- <div class="inpbx">
+                            <!-- <div class="inpbx">
                             <label for="">Select Exam Type</label>
                             <select name="prepost" class="input">
                                 <option value="">Select pre | post</option>
@@ -97,20 +101,20 @@ if (isset($_GET['emp_id']) && isset($_GET['prepost'])) {
                                 <option value="post">post exam</option>
                             </select>
                         </div> -->
-                    </div>
+                        </div>
 
-                    <div class="inpbx btn">
-                        <input type="submit" value="Submit" name="submit" id="submit">
-                    </div>
-                </form>
-                <?php 
-                }
-                else{
+                        <div class="inpbx btn">
+                            <input type="submit" value="Submit" name="submit" id="submit">
+                        </div>
+                    </form>
+                <?php
+                } else {
                 ?>
-                <div class="inpbx">
-                            <label for="">Already Responded Or Not Eligible</label>
-                </div>
-                <?php    
+                    <div class="inpbx">
+                        <label for="">Already Responded Or Not Eligible</label>
+
+                    </div>
+                <?php
                 }
                 ?>
             </div>
@@ -450,13 +454,17 @@ AND psa.emp_id = $empid
         }
     }
 
-    if ($insert_x) {
+    if ($insert_x && $result_query) {
 
         echo "<script>
             alert('Form submitted successfully')
+            window.location.href = 'home_page.php';
           </script>";
-        //header("location: .php");
+        // header("location: home_page.php");
+        exit;
+        
     }
+    
 }
 
 ?>

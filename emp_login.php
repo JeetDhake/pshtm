@@ -17,7 +17,7 @@ if (!empty($identity) && !empty($password)) {
             echo "success";
         }
     } else {
-        if (is_int($identity)) {
+        if (is_numeric($identity)) {
             $sql2 = pg_query($conn, "SELECT * FROM employee_records WHERE password = '{$password}' AND emp_uid = {$identity}");
             if (pg_num_rows($sql2) > 0) {
                 $row2 = pg_fetch_assoc($sql2);

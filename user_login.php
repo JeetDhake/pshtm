@@ -29,7 +29,7 @@
                 
                 <div class="field">
                     <label for="">Email | Emp_ID</label>
-                    <input type="email" name="identity" id="email" placeholder="Enter Email Or Emp ID ">
+                    <input type="text" name="identity" id="email" placeholder="Enter Email Or Emp ID ">
                 </div>
                 <div class="field">
                     <label for="">Password</label>

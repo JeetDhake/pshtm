@@ -44,7 +44,9 @@ while ($row11 = pg_fetch_assoc($res11)) {
     <?php require_once("user_navbar.php") ?>
     <div class="container">
         <div class="wrapper">
-
+            <div class="train xx">
+                <h3>Current Training</h3>
+            </div>
             <?php
             $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE department_id = $e_deptid OR job_post_id = $e_jpid";
             $res1 = pg_query($conn, $sql1);
@@ -52,36 +54,97 @@ while ($row11 = pg_fetch_assoc($res11)) {
                 while ($row1 = pg_fetch_assoc($res1)) {
                     $tr_id = $row1['training_program_id'];
 
-                    $sql2 = "SELECT * FROM create_training_programs WHERE training_program_id = $tr_id";
-                    $res2 = pg_query($conn, $sql2);
-                    if ($res2) {
-                        while ($row2 = pg_fetch_assoc($res2)) {
+                    $sqly = "SELECT COUNT(*) AS total FROM employee_reports WHERE emp_id = $emp_id AND training_program_id = $tr_id";
+                    $resy = pg_query($conn, $sqly);
+
+                    $rowy = pg_fetch_assoc($resy);
+                    if ($rowy['total'] == 0) {
+
+                        $sql2 = "SELECT * FROM create_training_programs WHERE training_program_id = $tr_id";
+                        $res2 = pg_query($conn, $sql2);
+                        if ($res2) {
+                            while ($row2 = pg_fetch_assoc($res2)) {
             ?>
 
+                                <div class="train" id="<?php echo $tr_id; ?>">
+                                    <div class="cont">
+                                        <div class="lf">
+                                            <h2><?php echo $row2['name']; ?></h2>
 
-                            <div class="train" id="<?php echo $tr_id; ?>">
-                                <div class="cont">
-                                    <div class="lf">
-                                        <h2><?php echo $row2['name']; ?></h2>
-                                        
-                                        <p>Description: </p>
-                                        <h4><?php echo $row2['training_desc']; ?></h4>
-                                    </div>
-                                    <div class="rg">
-                                        <button onclick ="action('pre', <?php echo $tr_id; ?>)" class="btnx">Pre Exam</button>
-                                        <button onclick = "action('post', <?php echo $tr_id; ?>)" class="btnx">Post Exam</button>
+                                            <p>Description: </p>
+                                            <p class="hx"><?php echo $row2['training_desc']; ?></p>
+                                        </div>
+                                        <div class="rg">
+                                            <button onclick="action('pre', <?php echo $tr_id; ?>)" class="btnx">Pre Exam</button>
+                                            <button onclick="action('post', <?php echo $tr_id; ?>)" class="btnx">Post Exam</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
 
             <?php
+                            }
                         }
                     }
                 }
 
                 if (pg_num_rows($res1) == 0) {
-                    echo "No Current Training";
+                    echo "<div class='train'><p class='hx'>No Training Available</p></div>";
+                }
+            }
+            ?>
+        </div>
+
+        <div class="wrapper">
+            <div class="train xx">
+                <h3>Training History</h3>
+            </div>
+            <?php
+            $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE department_id = $e_deptid OR job_post_id = $e_jpid";
+            $res1 = pg_query($conn, $sql1);
+            if ($res1) {
+                while ($row1 = pg_fetch_assoc($res1)) {
+                    $tr_id = $row1['training_program_id'];
+
+
+                    $sqlx = "SELECT * FROM employee_reports WHERE employee_performance IS NOT NULL AND emp_id = $emp_id AND training_program_id = $tr_id";
+                    $resx = pg_query($conn, $sqlx);
+                    if (pg_num_rows($resx) > 0) {
+                        while ($rowx = pg_fetch_assoc($resx)) {
+                            $trx_id = $rowx['training_program_id'];
+
+                            $sql2 = "SELECT * FROM create_training_programs WHERE training_program_id = $trx_id";
+                            $res2 = pg_query($conn, $sql2);
+                            if ($res2) {
+                                while ($row2 = pg_fetch_assoc($res2)) {
+
+            ?>
+
+
+                                    <div class="train" id="<?php echo $tr_id; ?>">
+                                        <div class="cont">
+                                            <div class="lf">
+                                                <h2><?php echo $row2['name']; ?></h2>
+
+                                                <p>Description: </p>
+                                                <p class="hx"><?php echo $row2['training_desc']; ?></p>
+                                            </div>
+                                            <div class="rg">
+                                                <button onclick="action('pre', <?php echo $tr_id; ?>)" class="btnx">Pre Exam</button>
+                                                <button onclick="action('post', <?php echo $tr_id; ?>)" class="btnx">Post Exam</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+            <?php
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (pg_num_rows($res1) == 0) {
+                    echo "<div class='train'><p class='hx'>No Training History</p></div>";
                 }
             }
             ?>
@@ -90,7 +153,7 @@ while ($row11 = pg_fetch_assoc($res11)) {
     <script>
         function action(type, tr_id) {
             const emp_id = <?php echo $emp_id; ?>;
-            const url = `exam.php?emp_id=${encodeURIComponent(emp_id)}&prepost=${encodeURIComponent(type)}&tr_id=${encodeURIComponent(tr_id)}`;
+            const url = `exam.php?prepost=${encodeURIComponent(type)}&tr_id=${encodeURIComponent(tr_id)}`;
 
             window.location.href = url;
         }
