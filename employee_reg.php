@@ -36,6 +36,7 @@ if (!isset($_SESSION['admin_id'])) {
                     if (isset($_POST['submit'])) {
 
                         $emp_uid = $_POST['emp_uid'];
+                        $password = pg_escape_string($_POST['password']);
 
                         $emp_first_name =  pg_escape_string($_POST['emp_first_name']);
                         $emp_last_name =  pg_escape_string($_POST['emp_last_name']);
@@ -68,7 +69,7 @@ if (!isset($_SESSION['admin_id'])) {
 
 
 
-                                if ($emp_first_name == '' or $emp_last_name == '' or $emp_department == '' or $emp_job_post == '' or $emp_email == '' or $emp_phone == '' /*or $emp_image == '' */ or $emp_uid == '') {
+                                if ($emp_first_name == '' or $emp_last_name == '' or $emp_department == '' or $emp_job_post == '' or $emp_email == '' or $emp_phone == '' /*or $emp_image == '' */ or $emp_uid == '' or $password == '') {
                                     echo "<script>
                                     alert('enter all fields')
                                   </script>";
@@ -77,7 +78,7 @@ if (!isset($_SESSION['admin_id'])) {
 
                                     // move_uploaded_file($tmp_image, "db_img/$filenewname");
 
-                                    $insert_user = "INSERT INTO employee_records (emp_first_name,emp_last_name,department_id,job_post_id,emp_email,emp_mobile,emp_status,emp_uid) VALUES ('$emp_first_name','$emp_last_name','$emp_department','$emp_job_post','$emp_email','$emp_phone','$status','$emp_uid')";
+                                    $insert_user = "INSERT INTO employee_records (emp_first_name,emp_last_name,department_id,job_post_id,emp_email,emp_mobile,emp_status,emp_uid,password) VALUES ('$emp_first_name','$emp_last_name','$emp_department','$emp_job_post','$emp_email','$emp_phone','$status','$emp_uid','$password')";
 
                                     $result_query = pg_query($conn, $insert_user);
                                     if ($result_query) {
@@ -112,6 +113,9 @@ if (!isset($_SESSION['admin_id'])) {
                                     <div class="fld fld1">
                                         <label for="">Employee_id</label>
                                         <input type="number" name="emp_uid" id="emp_uid" placeholder="id" required>
+
+                                        <label for="">Password</label>
+                                        <input type="text" name="password" id="password" placeholder="Create Password" required>
 
                                     </div>
                                     <div class="in">

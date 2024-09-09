@@ -17,7 +17,8 @@
     height: 100%;
 
 }
-body{
+
+body {
     background: #dbdbdb;
 }
 
@@ -33,13 +34,13 @@ body{
     margin: 10px;
     border-radius: 5px;
     overflow-y: auto;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.3);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0, 0, 0, 0.3);
 }
 
 .train {
-    flex: 1 1 calc(100% - 30px); 
-    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
-
+    flex: 1 1 calc(100% - 30px);
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0, 0, 0, 0.5);
+    height: 200px;
     background-color: rgb(255, 255, 255);
     padding: 20px;
     box-sizing: border-box;
@@ -48,12 +49,15 @@ body{
     flex-direction: column;
     justify-content: center;
 }
-.train h2, h4, h5{
+
+.train h2,
+h4,
+h5 {
     margin-bottom: 5px;
     margin-right: 3px;
 }
 
-.cont{
+.cont {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
@@ -61,16 +65,20 @@ body{
     justify-content: space-between;
     width: 100%;
 }
-.lf, .rg{
-    flex: 1 1 calc(50% - 30px); 
+
+.lf,
+.rg {
+    flex: 1 1 calc(50% - 30px);
     padding: 5px;
 }
-.rg{
+
+.rg {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.btnx{
+
+.btnx {
     background: transparent;
     border-radius: 5px;
     border: 2px solid #626262;
@@ -78,17 +86,40 @@ body{
     margin: 10px;
     cursor: pointer;
 }
-.btnx:hover{
+
+.btnx:hover {
     border: #767676 2px solid;
 }
+
 .hx {
     font-size: 18px;
 }
-.xx{
+
+.xx {
     height: 60px;
 }
+
 @media screen and (max-width: 750px) {
     .container {
         flex-direction: column;
     }
 }
+
+::-webkit-scrollbar {
+    width: 4px;
+   
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
