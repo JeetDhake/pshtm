@@ -6,9 +6,7 @@
 }
 body{
     top: 0;
-
 }
-
 .apf{
     display: flex;
     align-items: center;
@@ -24,7 +22,6 @@ body{
     border-radius: 16px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
 }
-
 .pst{
     padding: 25px 30px;
 
@@ -43,7 +40,6 @@ body{
     flex-direction: column;
     margin-left: 10px;
     justify-content: space-around;
-
 }
 .in .fld1 input, select{
     width: 100%;
@@ -56,8 +52,6 @@ body{
 .pst form .pdetail .f input, select{
     width: 280px;
 }
-
-
 .pst form .fld{
     display: flex;
     flex-direction: column;

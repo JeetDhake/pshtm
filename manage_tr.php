@@ -15,6 +15,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/manage_tr.css">
+    <link rel="stylesheet" href="style/sidebar.css">
     <title>Training</title>
 </head>
 

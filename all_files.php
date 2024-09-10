@@ -15,6 +15,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/b9323f08fd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style/library.css">
+    <link rel="stylesheet" href="style/sidebar.css">
     <title>Library</title>
 </head>
 

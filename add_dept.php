@@ -41,7 +41,9 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/sidebar.css">
     <link rel="stylesheet" href="style/manage_dept.css">
+
     <title>Manage_Dept</title>
 </head>
 

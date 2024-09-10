@@ -63,6 +63,7 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/b9323f08fd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style/edit.css">
+
     <title>Edit Training</title>
 </head>
 <body>

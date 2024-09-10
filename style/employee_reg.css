@@ -6,9 +6,7 @@
 }
 body{
     top: 0;
-
 }
-
 .apf{
     display: flex;
     align-items: center;
@@ -56,14 +54,11 @@ body{
 .pst form .pdetail .f input, select{
     width: 280px;
 }
-
-
 .pst form .fld{
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
     position: relative;
-
 }
 .pst form .fld select{
     color: #555;
@@ -109,44 +104,4 @@ body{
 .pst form .fld i.active::before{
     color: #333;
     content: "\f070";
-}
-
-
-::-webkit-file-upload-button{
-    border: 1px solid #333;
-    background-color: #fff;
-    color: #555;
-    border-radius: 3px;
-
-}
-#drop{
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 170px;
-    width: 278px;
-    font-size: 16px;
-    padding: 0 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    margin: 1px;
-}
-
-#img-view{
-    width: 278px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-position: center;
-    background-size: cover;
-    flex-direction: column;
-}
-#img-view i{
-    position: unset;
-}
-#img-view p{
-    color: #555;
 }

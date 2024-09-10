@@ -14,6 +14,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/b9323f08fd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style/library.css">
+    <link rel="stylesheet" href="style/sidebar.css">
     <title>Library</title>
 </head>
 
@@ -36,10 +37,10 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     
 
    
-    <div class="container">
+    <div class="containerx">
 
 
-        <div class="apf">
+        <div class="apfx">
             <div class="wrapper">
                 <section class="pst">
                     <header>
@@ -91,7 +92,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
         </div>
     </div>
 
-
+<script src="upload.js"></script>
     <script src="manage.js"></script>
 </body>
 
