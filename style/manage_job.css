@@ -295,3 +295,10 @@ td{
 a{
     text-decoration: none;
 }
+.tbd{
+    max-height: 400px;
+    overflow-y: auto;
+}
+table{
+    width: 500px;
+}

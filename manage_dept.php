@@ -22,32 +22,35 @@ if (!isset($_SESSION['admin_id'])) {
     <?php require_once("navbar.html") ?>
     <?php require_once("sidebar.html") ?>
     <div class="container">
+        <div class="op">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th class="lx">Department</th>
+                        <th>Update</th>
 
 
-        <table>
-            <thead>
-                <tr>
-                    <th class="lx">Department</th>
-                    <th>Update</th>
-                   
+                    </tr>
+                </thead>
+            </table>
+            <div class="tbd">
+                <table>
 
-                </tr>
-            </thead>
+                    <?php
 
-            <?php
-
-            $select_query = "SELECT * FROM department";
-            $result_query = pg_query($conn, $select_query);
+                    $select_query = "SELECT * FROM department";
+                    $result_query = pg_query($conn, $select_query);
 
 
-            while ($row = pg_fetch_assoc($result_query)) {
+                    while ($row = pg_fetch_assoc($result_query)) {
 
-                $emp_department_name = $row['department_name'];
-                $department_id = $row['department_id'];
+                        $emp_department_name = $row['department_name'];
+                        $department_id = $row['department_id'];
 
 
 
-                echo "
+                        echo "
                 <tbody>
                     <tr>
                         <td class='lx'><p>$emp_department_name</p></td>
@@ -63,17 +66,16 @@ if (!isset($_SESSION['admin_id'])) {
             
 
         ";
-        
-            }
+                    }
 
-//dept_delete.php?department_id=$department_id
+                    //dept_delete.php?department_id=$department_id
 
 
-            ?>
-        </table>
-
+                    ?>
+                </table>
+            </div>
+        </div>
     </div>
-
 
 
     <script src="manage.js"></script>

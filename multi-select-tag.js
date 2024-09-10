@@ -244,4 +244,3 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
         })
     }
 }
-

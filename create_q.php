@@ -10,7 +10,6 @@ if (isset($_POST['submit'])) {
     $training_program_id = $_POST['training_program_id'];
 
     header("Location: form_creator.php?training_program_id=" . $training_program_id);
-
 }
 
 ?>
@@ -44,8 +43,12 @@ if (isset($_POST['submit'])) {
                                 <option value="">Select Training</option>
 
                                 <?php
+                                $select_query = "SELECT a.training_program_id, a.name
+                                                FROM create_training_programs a
+                                                LEFT JOIN questions r ON a.training_program_id = r.training_program_id
+                                                WHERE r.training_program_id IS NULL";
 
-                                $select_query = "SELECT * FROM create_training_programs";
+                                // $select_query = "SELECT * FROM create_training_programs";
                                 $result_query = pg_query($conn, $select_query);
 
                                 while ($row = pg_fetch_assoc($result_query)) {

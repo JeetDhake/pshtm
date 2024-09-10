@@ -23,31 +23,34 @@ if (!isset($_SESSION['admin_id'])) {
     <?php require_once("sidebar.html") ?>
     <div class="container">
 
+        <div class="op">
 
-        <table>
-            <thead>
-                <tr>
-                    <th class="ly">Job Post</th>
-                    
-                    <th>Update</th>
-                 
+            <table>
+                <thead>
+                    <tr>
+                        <th class="ly">Job Post</th>
 
-                </tr>
-            </thead>
-
-            <?php
-
-            $select_query = "SELECT * FROM job_post";
-            $result_query = pg_query($conn, $select_query);
+                        <th>Update</th>
 
 
-            while ($row = pg_fetch_assoc($result_query)) {
+                    </tr>
+                </thead>
+            </table>
+            <div class="tbd">
+                <table>
+                    <?php
 
-               
-                $emp_job_post = $row['job_post_name'];
-                $job_post_id = $row['job_post_id'];
+                    $select_query = "SELECT * FROM job_post";
+                    $result_query = pg_query($conn, $select_query);
 
-                echo "
+
+                    while ($row = pg_fetch_assoc($result_query)) {
+
+
+                        $emp_job_post = $row['job_post_name'];
+                        $job_post_id = $row['job_post_id'];
+
+                        echo "
                 <tbody>
                     <tr>
                         <td class='ly'><p>$emp_job_post</p></td>
@@ -65,14 +68,15 @@ if (!isset($_SESSION['admin_id'])) {
                 </tbody>        
 
         ";
-            }
-//job_delete.php?job_post_id=$job_post_id
-            ?>
-        </table>
+                    }
+                    //job_delete.php?job_post_id=$job_post_id
+                    ?>
+                </table>
+
+            </div>
+        </div>
 
     </div>
-
-
 
     <script src="manage.js"></script>
 </body>

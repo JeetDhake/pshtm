@@ -22,34 +22,38 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     <?php require_once("navbar.html") ?>
     <?php require_once("sidebartr.html") ?>
     <div class="container">
-
-        <table>
-            <thead>
-                <tr>
-                    <th class="ly">Training Program Name</th>
-        
-                    <th>Update</th>
-        
-
-                </tr>
-            </thead>
-
-            <?php
-
-            $select_query = "SELECT DISTINCT * FROM create_training_programs ";
-
-            $result_query = pg_query($conn, $select_query);
+        <div class="op">
 
 
-            while ($row = pg_fetch_assoc($result_query)) {
-                $training_name = $row['name'];
-             
+            <table>
+                <thead>
+                    <tr>
+                        <th class="ly">Training Program Name</th>
 
-             
-                $training_id = $row['training_program_id'];
+                        <th>Update</th>
 
-                echo "
-                <tbody>
+
+                    </tr>
+                </thead>
+            </table>
+            <div class="tbd">
+                <table>
+                    <?php
+
+                    $select_query = "SELECT DISTINCT * FROM create_training_programs ";
+
+                    $result_query = pg_query($conn, $select_query);
+
+
+                    while ($row = pg_fetch_assoc($result_query)) {
+                        $training_name = $row['name'];
+
+
+
+                        $training_id = $row['training_program_id'];
+
+                        echo "
+                <tbody>  
                     <tr>
                         <td class='ly'>
                             <a href='view_tr.php?training_program_id=$training_id'>
@@ -64,19 +68,17 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                         </td>
                   
                     </tr>
-
                 </tbody>
-            
 
         ";
-            }
+                    }
+
+                    ?>
 
 
-
-
-            ?>
-        </table>
-
+                </table>
+            </div>
+        </div>
     </div>
 
 

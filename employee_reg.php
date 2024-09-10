@@ -140,7 +140,6 @@ if (!isset($_SESSION['admin_id'])) {
                                     <label for="">Department</label>
                                     <select name="department_id">
                                         <option value="">Select Department</option>
-
                                         <?php
 
                                         $select_query = "SELECT * FROM department";
