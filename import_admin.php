@@ -22,7 +22,7 @@ session_start();
         <div class="wrapper" id="">
             <section class="pst">
                 <header>
-                    Import Members
+                    Import Admins
                 </header>
                 <?php
 
@@ -34,7 +34,7 @@ session_start();
                     unset($_SESSION['message']);
                 }
                 ?>
-                <form action="xldb_mbr.php" method="POST" enctype="multipart/form-data">
+                <form action="xldb_admin.php" method="POST" enctype="multipart/form-data">
 
 
                     <div class="pdetail">
@@ -60,7 +60,18 @@ session_start();
                     <button type="submit" name="import">Import</button> -->
                 </form>
 
-
+                <p>Format: </p>
+                <table>
+                    <tr>
+                        <td>admin_id</td>
+                        <td>first_name</td>
+                        <td>last_name</td>
+                        <td>mobile</td>
+                        <td>email</td>
+                        <td>username</td>
+                        <td>password</td>
+                    </tr>
+                </table>
 
             </section>
         </div>

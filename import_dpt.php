@@ -59,11 +59,17 @@ session_start();
                     <!-- <input type="file" name="import_file" id="">
                     <button type="submit" name="import">Import</button> -->
                 </form>
-
-
-
+                <p>Format: </p>
+                <table>
+                    <tr>
+                        <td>department_id</td>
+                        <td>department_name</td>
+                    </tr>
+                </table>
             </section>
+
         </div>
+
     </div>
 
     <script src="manage.js"></script>

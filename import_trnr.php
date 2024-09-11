@@ -10,7 +10,7 @@ session_start();
     <script src="https://kit.fontawesome.com/b9323f08fd.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style/sidebar.css">
     <link rel="stylesheet" href="style/library.css">
-    <title>xldb_emp</title>
+    <title>xldb_mbr</title>
 </head>
 
 <body>
@@ -22,19 +22,19 @@ session_start();
         <div class="wrapper" id="">
             <section class="pst">
                 <header>
-                    Import Employees
+                    Import Admins
                 </header>
                 <?php
 
                 if (isset($_SESSION['message'])) {
                     $msg = $_SESSION['message'];
                     echo "<div class='emsg'>
-                            <p>$msg</p>
+                            <p>'.$msg.'</p>
                         </div>";
                     unset($_SESSION['message']);
                 }
                 ?>
-                <form action="xldb_emp.php" method="POST" enctype="multipart/form-data">
+                <form action="xldb_admin.php" method="POST" enctype="multipart/form-data">
 
 
                     <div class="pdetail">
@@ -63,15 +63,12 @@ session_start();
                 <p>Format: </p>
                 <table>
                     <tr>
-                        <td>emp_first_name</td>
-                        <td>emp_last_name</td>
-                        <td>emp_mobile</td>
-                        <td>emp_email</td>
-                    </tr>
-                    <tr>
-                        <td>job_post_id</td>
-                        <td>department_id</td>
-                        <td>emp_uid</td>
+                        <td>trainer_id</td>
+                        <td>first_name</td>
+                        <td>last_name</td>
+                        <td>mobile</td>
+                        <td>email</td>
+                        <td>username</td>
                         <td>password</td>
                     </tr>
                 </table>

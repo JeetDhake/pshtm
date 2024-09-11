@@ -29,7 +29,7 @@ session_start();
                 if (isset($_SESSION['message'])) {
                     $msg = $_SESSION['message'];
                     echo "<div class='emsg'>
-                            <p>'.$msg.'</p>
+                            <p>$msg</p>
                         </div>";
                     unset($_SESSION['message']);
                 }
@@ -60,7 +60,24 @@ session_start();
                     <button type="submit" name="import">Import</button> -->
                 </form>
 
-
+                <p>Format: </p>
+                <table>
+                    <tr>
+                        <td>training_program_id</td>
+                        <td>name</td>
+                        <td>training_desc</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td>question_text</td>
+                        <td>answer (a|b|c|d)</td>
+                        <td>option (a)</td>
+                        <td>option (b)</td>
+                        <td>option (c)</td>
+                        <td>option (d)</td>
+                    </tr>
+                </table>
 
             </section>
         </div>

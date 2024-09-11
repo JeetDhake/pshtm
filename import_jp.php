@@ -60,7 +60,13 @@ session_start();
                     <button type="submit" name="import">Import</button> -->
                 </form>
 
-
+                <p>Format: </p>
+                <table>
+                    <tr>
+                        <td>job_post_id</td>
+                        <td>job_post_name</td>
+                    </tr>
+                </table>
 
             </section>
         </div>

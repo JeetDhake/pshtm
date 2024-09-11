@@ -210,3 +210,9 @@ body{
     margin: 5px;
     background: #f7f7f7;
 }
+
+table td{
+    border: 1px solid #555;
+    padding: 3px;
+    border-radius: 3px;
+}

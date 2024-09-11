@@ -7,8 +7,6 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
 }
 if (isset($_POST['submit'])) {
 
-    
-
     $training_program_id = $_POST['training_program_id'];
     $training_name = pg_escape_string($_POST['name']);
     $tr_desc = pg_escape_string($_POST['tr_desc']);
@@ -91,7 +89,6 @@ if(isset($_SESSION['trainer_id'])) {
     require_once("navbar2.html");
 }
 ?>
-    <?php require_once("navbar.html") ?>
     <?php require_once("sidebartr.html") ?>
 
     <div class="container">
