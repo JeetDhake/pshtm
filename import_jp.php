@@ -63,7 +63,6 @@ session_start();
                 <p>Format: </p>
                 <table>
                     <tr>
-                        <td>job_post_id</td>
                         <td>job_post_name</td>
                     </tr>
                 </table>
