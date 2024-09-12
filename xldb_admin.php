@@ -43,23 +43,39 @@ if (isset($_POST['import'])) {
                     }
 
 
-                    $insert_query_admin = "INSERT INTO admin_records (admin_id,first_name, last_name, mobile, email)
+                    $check_id = "SELECT * FROM admin_records WHERE admin_id = $admin_id";
+                    $res_q = pg_query($conn, $check_id);
+                    if ($res_q) {
+                        $num_rows = pg_num_rows($res_q);
+
+                        if ($num_rows > 0) {
+                            pg_query($conn, "ROLLBACK");
+                            $_SESSION['message'] = "Import failed: existing data";
+                            header('location: import_dpt.php');
+                            exit(0);
+                        } else {
+
+
+
+                            $insert_query_admin = "INSERT INTO admin_records (admin_id,first_name, last_name, mobile, email)
                                         VALUES ($1, $2, $3, $4, $5) RETURNING admin_id";
-                    $result_query1 = pg_query_params($conn, $insert_query_admin, array($admin_id, $first_name, $last_name, $mobile, $email));
+                            $result_query1 = pg_query_params($conn, $insert_query_admin, array($admin_id, $first_name, $last_name, $mobile, $email));
 
-                    $row_admin = pg_fetch_assoc($result_query1);
-                    $admin_id = $row_admin['admin_id'];
+                            $row_admin = pg_fetch_assoc($result_query1);
+                            $admin_id = $row_admin['admin_id'];
 
-                    $insert_query_credentials = "INSERT INTO login_credentials_admin (admin_id, username, password)
+                            $insert_query_credentials = "INSERT INTO login_credentials_admin (admin_id, username, password)
                                         VALUES ($1, $2, $3)";
-                    $result_query2 = pg_query_params($conn, $insert_query_credentials, array($admin_id, $username, $password));
+                            $result_query2 = pg_query_params($conn, $insert_query_credentials, array($admin_id, $username, $password));
 
 
 
-                    if (!$result_query1 || !$result_query2) {
-                        throw new Exception('Database insertion failed: ' . pg_last_error($conn));
+                            if (!$result_query1 || !$result_query2) {
+                                throw new Exception('Database insertion failed: ' . pg_last_error($conn));
+                            }
+                            $msg = true;
+                        }
                     }
-                    $msg = true;
                 } else {
                     $count = 1;
                 }

@@ -17,8 +17,6 @@ if (isset($_POST['submit'])) {
     $participation = $_POST['participation'];
     $completion_rate = $_POST['completion_rate'];
 
-    
-
 
     $tr_image = $_FILES['tr_image']['name'];
     $tmp_image = $_FILES['tr_image']['tmp_name'];
@@ -53,14 +51,27 @@ if (isset($_POST['submit'])) {
             die("Error: " . pg_last_error($conn));
         }
 
-        // foreach ($emp_id as $emplist) {
-        //     $insert1 = "INSERT INTO emp_training_relation(emp_id, training_program_id) VALUES ( $emplist, $training_program_id)";
-        //     $result_query1 = pg_query($conn, $insert1);
-        // }
 
-        // if (!$result_query1) {
-        //     die("Error: " . pg_last_error($conn));
-        // }
+
+        $emp_id = $_POST['employee_id'];
+        $query = "SELECT 
+            AVG(employee_performance) AS avg_emp_perf,
+            AVG(questionnaire1_result) AS avg_que1_res,
+            AVG(questionnaire2_result) AS avg_que2_res
+          FROM employee_reports WHERE training_program_id = $training_program_id";
+        $result_avg = pg_query($conn, $query);
+        $avgrow = pg_fetch_assoc($result_avg);
+
+        $avg_p = (int)$avgrow['avg_emp_perf'];
+        $avg_1 = (int)$avgrow['avg_que1_res'];
+        $avg_2 = (int)$avgrow['avg_que2_res'];
+
+
+        foreach ($emp_id as $emplist) {
+            $insert1 = "INSERT INTO employee_reports (emp_id, training_program_id, employee_performance, questionnaire1_result, questionnaire2_result)
+                        VALUES ($emplist, $training_program_id, '$avg_p', '$avg_1', '$avg_2') ";
+            $res = pg_query($conn, $insert1);
+        }
 
         if ($result_query && $result_query2) {
 
@@ -100,8 +111,6 @@ if (isset($_POST['submit'])) {
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="pdetail">
 
-                        
-
                         <div class="fld">
 
                         </div>
@@ -112,6 +121,7 @@ if (isset($_POST['submit'])) {
                                 <option value="">Select Training</option>
 
                                 <?php
+
                                 $select_query = "SELECT * FROM create_training_programs";
                                 $result_query = pg_query($conn, $select_query);
 
@@ -121,7 +131,7 @@ if (isset($_POST['submit'])) {
 
                                     echo "<option value='$training_program_id'>$training_name</option>";
                                 }
-                                
+
 
                                 ?>
                             </select>
@@ -139,6 +149,28 @@ if (isset($_POST['submit'])) {
                                 <input type="date" name="end_date" id="end_date" placeholder="Enter No Of Days" required>
                             </div>
 
+                        </div>
+                        <div class="fld">
+                            <label for="">Auto report Gen</label>
+                            <select name="employee_id[]" id="employee_id" multiple>
+                                <option value="">Select Employees</option>
+
+                                <?php
+
+                                $select_query = "SELECT * FROM employee_records";
+                                $result_query = pg_query($conn, $select_query);
+
+                                while ($row = pg_fetch_assoc($result_query)) {
+                                    $first_name = $row['emp_first_name'];
+                                    $last_name = $row['emp_last_name'];
+                                    $emp_id = $row['emp_id'];
+                                    $emp_uid = $row['emp_uid'];
+
+                                    echo "<option value='$emp_id'>" . $emp_uid . ": " . $first_name . " " . $last_name . "</option>";
+                                }
+
+                                ?>
+                            </select>
                         </div>
                         <div class="f">
                             <div class="fld">
@@ -167,6 +199,7 @@ if (isset($_POST['submit'])) {
                                 </div>
                             </label>
                         </div>
+
                         <div class="fld btn">
                             <input type="submit" value="Finish Training" name="submit" id="submit">
                         </div>
@@ -179,7 +212,7 @@ if (isset($_POST['submit'])) {
     <script src="multi-select-tag.js"></script>
     <script src="employee.js"></script>
     <script>
-        new MultiSelectTag('emp_id');
+        new MultiSelectTag('employee_id');
     </script>
     <script src="manage.js"></script>
 </body>

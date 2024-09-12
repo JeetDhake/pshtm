@@ -54,7 +54,7 @@ while ($row11 = pg_fetch_assoc($res11)) {
                 while ($row1 = pg_fetch_assoc($res1)) {
                     $tr_id = $row1['training_program_id'];
 
-                    $sqly = "SELECT COUNT(*) AS total FROM employee_reports WHERE emp_id = $emp_id AND training_program_id = $tr_id";
+                    $sqly = "SELECT COUNT(*) AS total FROM employee_reports WHERE emp_id = $emp_id AND training_program_id = $tr_id AND employee_performance is not null";
                     $resy = pg_query($conn, $sqly);
 
                     $rowy = pg_fetch_assoc($resy);
@@ -129,8 +129,7 @@ while ($row11 = pg_fetch_assoc($res11)) {
                                                 <p class="hx"><?php echo $row2['training_desc']; ?></p>
                                             </div>
                                             <div class="rg">
-                                                <button onclick="action('pre', <?php echo $tr_id; ?>)" class="btnx">Pre Exam</button>
-                                                <button onclick="action('post', <?php echo $tr_id; ?>)" class="btnx">Post Exam</button>
+                                                <button onclick="action_re(<?php echo $tr_id; ?>)" class="btnx">Report</button>
                                             </div>
                                         </div>
                                     </div>
@@ -156,6 +155,13 @@ while ($row11 = pg_fetch_assoc($res11)) {
             const url = `exam.php?prepost=${encodeURIComponent(type)}&tr_id=${encodeURIComponent(tr_id)}`;
 
             window.location.href = url;
+        }
+        function action_re(tr_id){
+            const emp_id = <?php echo $emp_id; ?>;
+            const url = `user_profile.php#${encodeURIComponent(tr_id)}`;
+
+            window.location.href = url;
+
         }
     </script>
 </body>

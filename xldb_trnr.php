@@ -35,7 +35,7 @@ if (isset($_POST['import'])) {
 
                     $status = "true";
 
-                    if (empty($admin_id) || empty($first_name) || empty($last_name) || empty($mobile) || empty($email) || empty($username) || empty($password)) {
+                    if (empty($trainer_id) || empty($first_name) || empty($last_name) || empty($mobile) || empty($email) || empty($username) || empty($password)) {
                         pg_query($conn, "ROLLBACK");
                         $_SESSION['message'] = "Import failed: empty values";
                         header('location: import_trnr.php');
@@ -43,23 +43,38 @@ if (isset($_POST['import'])) {
                     }
 
 
-                    $insert_query_trainer = "INSERT INTO trainer_records (trainer_id,first_name, last_name, mobile, email)
+
+                    $check_id = "SELECT * FROM trainer_records WHERE trainer_id = $trainer_id";
+                    $res_q = pg_query($conn, $check_id);
+                    if ($res_q) {
+                        $num_rows = pg_num_rows($res_q);
+
+                        if ($num_rows > 0) {
+                            pg_query($conn, "ROLLBACK");
+                            $_SESSION['message'] = "Import failed: existing data";
+                            header('location: import_dpt.php');
+                            exit(0);
+                        } else {
+
+                            $insert_query_trainer = "INSERT INTO trainer_records (trainer_id,first_name, last_name, mobile, email)
                     VALUES ($1, $2, $3, $4, $5) RETURNING trainer_id";
-                    $result_query1 = pg_query_params($conn, $insert_query_trainer, array($trainer_id, $first_name, $last_name, $mobile, $email));
+                            $result_query1 = pg_query_params($conn, $insert_query_trainer, array($trainer_id, $first_name, $last_name, $mobile, $email));
 
-                    $row_trainer = pg_fetch_assoc($result_query1);
-                    $trainer_id = $row_trainer['trainer_id'];
+                            $row_trainer = pg_fetch_assoc($result_query1);
+                            $trainer_id = $row_trainer['trainer_id'];
 
-                    $insert_query_credentials = "INSERT INTO login_credentials_trainers (trainer_id, username, password)
+                            $insert_query_credentials = "INSERT INTO login_credentials_trainers (trainer_id, username, password)
                     VALUES ($1, $2, $3)";
-                    $result_query2 = pg_query_params($conn, $insert_query_credentials, array($trainer_id, $username, $password));
+                            $result_query2 = pg_query_params($conn, $insert_query_credentials, array($trainer_id, $username, $password));
 
 
 
-                    if (!$result_query1 || !$result_query2) {
-                        throw new Exception('Database insertion failed: ' . pg_last_error($conn));
+                            if (!$result_query1 || !$result_query2) {
+                                throw new Exception('Database insertion failed: ' . pg_last_error($conn));
+                            }
+                            $msg = true;
+                        }
                     }
-                    $msg = true;
                 } else {
                     $count = 1;
                 }

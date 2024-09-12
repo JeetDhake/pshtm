@@ -36,15 +36,28 @@ if (isset($_POST['import'])) {
                         header('location: import_dpt.php');
                         exit(0);
                     }
+                    $check_id = "SELECT * FROM department WHERE department_id = $department_id";
+                    $res_q = pg_query($conn, $check_id);
+                    if ($res_q) {
+                        $num_rows = pg_num_rows($res_q);
 
-                    $insert_dept = "INSERT INTO department (department_id,department_name) VALUES ($department_id, '$department_name')";
+                        if ($num_rows > 0) {
+                            pg_query($conn, "ROLLBACK");
+                            $_SESSION['message'] = "Import failed: existing data";
+                            header('location: import_dpt.php');
+                            exit(0);
+                        } else {
 
-                    $result = pg_query($conn, $insert_dept);
+                            $insert_dept = "INSERT INTO department (department_id,department_name) VALUES ($department_id, '$department_name')";
 
-                    if (!$result) {
-                        throw new Exception('Database insertion failed: ' . pg_last_error($conn));
+                            $result = pg_query($conn, $insert_dept);
+
+                            if (!$result) {
+                                throw new Exception('Database insertion failed: ' . pg_last_error($conn));
+                            }
+                            $msg = true;
+                        }
                     }
-                    $msg = true;
                 } else {
                     $count = 1;
                 }
