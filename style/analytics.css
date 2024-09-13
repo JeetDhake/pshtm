@@ -6,7 +6,7 @@
 }
 .container {
 
-    padding-left: 2.5%;
+    padding-left: 16.5%;
     padding-right: 2.5%;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -380,6 +380,7 @@ body{
     padding-right: 2.5px;
     border-radius: 16px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
+    height: 500px;
 }
 .pst{
     padding: 25px 30px;
@@ -466,11 +467,60 @@ body{
 }
 .chartbox{
     width: 500px;
+    display: inline-block;
 }
+.canva{
+    width: 100%;
+}
+.chart-wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%; 
+}
+
 .xu{
     display: flex;
 }
 .scr{
     max-height: 250px;
     overflow-y: auto;
+}
+
+
+
+.tab-buttons {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 10px;
+    background: #f1f1f1;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.tab-button.active {
+    background: #fff;
+    border-bottom: 1px solid #fff;
+    font-weight: bold;
+}
+
+.tab-content {
+    border: 1px solid #ccc;
+    border-top: none;
+    padding: 20px;
+    background: #fff;
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
 }

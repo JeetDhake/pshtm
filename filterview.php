@@ -112,9 +112,6 @@ if (!isset($_SESSION['admin_id'])) {
                                     <th class="ly">Training Program Id</th>
                                     <th class="ly">Training Program Name</th>
 
-
-
-
                                 </tr>
                             </thead>
                         </table>
@@ -154,7 +151,6 @@ if (!isset($_SESSION['admin_id'])) {
                                                         </a>
                                                     </td>
 
-                                                  
                                                 </tr>
                             
                                             </tbody>
