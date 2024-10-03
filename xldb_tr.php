@@ -46,15 +46,15 @@ if (isset($_POST['import'])) {
                         header('location: import_tr.php');
                         exit(0);
                     }
-                    $check = "SELECT * FROM create_training_programs WHERE training_program_id = $training_program_id";
-                    $result_check = pg_query($conn, $check);
-                    if (pg_num_rows($result_check) > 0) {
+                    // $check = "SELECT * FROM create_training_programs WHERE training_program_id = $training_program_id";
+                    // $result_check = pg_query($conn, $check);
+                    // if (pg_num_rows($result_check) > 0) {
 
-                        pg_query($conn, "ROLLBACK");
-                        $_SESSION['message'] = "Import Failed: Id exists";
-                        header('location: import_tr.php');
-                        exit(0);
-                    }
+                    //     pg_query($conn, "ROLLBACK");
+                    //     $_SESSION['message'] = "Import Failed: Id exists";
+                    //     header('location: import_tr.php');
+                    //     exit(0);
+                    // }
 
                     $insert_1 = "INSERT INTO create_training_programs (training_program_id, name, training_desc, training_status) VALUES ($1, $2, $3, $4)";
                     $result_1 = pg_query_params($conn, $insert_1, [$training_program_id, $name, $training_desc, $status]);

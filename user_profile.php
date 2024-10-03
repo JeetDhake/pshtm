@@ -1,7 +1,7 @@
 <?php
 include('connect.php');
 session_start();
-if(!isset($_SESSION['emp_id'])){
+if (!isset($_SESSION['emp_id'])) {
     header("location: user_login.php");
 }
 
@@ -123,12 +123,12 @@ $t = "t";
                 <h1 class='name'>
                     <?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>
                 </h1>
-                  
+
                 <div class="map">
                     <i class="ri-map-pin-fill ri"></i>
                     <span></span>
                 </div>
-                  
+
                 <p><?php $x = $row['emp_status'];
                     if ($x === $t) {
                         echo "Active";
@@ -205,17 +205,20 @@ $t = "t";
                             $prepost[] = $q1;
                             $prepost[] = $q2;
                         }
+                        $sqryz = "SELECT * FROM training_reports WHERE training_program_id = $training_program_id";
+                        $rsqryz = pg_query($conn, $sqryz);
+                        while($rowz = pg_fetch_assoc($rsqryz)){
+                            $to = $rowz['end_date'];
+                            $from = $rowz['start_date'];
+                        }
 
-                        // Generate unique IDs for the canvas elements
                         $canvas_id1 = "mychart_" . $training_program_id . "_1";
                         $canvas_id2 = "mychart_" . $training_program_id . "_2";
 
-                        // Print the first chart
                         echo '<div class="chartbox">
                 <canvas id="' . $canvas_id1 . '"></canvas>
               </div>';
 
-                        // JavaScript for the first chart
                         echo '<script>
                 var pp1 = ' . json_encode($prepost) . ';
                 var preq = "pre_question";
@@ -246,19 +249,35 @@ $t = "t";
 
               <h1 class="heading">questionnaire1_result: ' . number_format($q1, 2) . '</h1><br>
               <h1 class="heading">Performance: ' . number_format($emp_p, 2) . '</h1><br>
-              
 
-              </div>';
+         ';
+                ?>
+                        <div class="fx">
+                            <form action="pdfxd.php" method="POST">
+                                <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>">
 
-                        // Print the second chart
+                                <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> comp_certi</button>
+                            </form>
+                            <form action="pdfyd.php" method="POST">
+                                <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>" />
+                                <input type="hidden" name="from" value="<?php echo htmlspecialchars($from); ?>" />
+                                <input type="hidden" name="to" value="<?php echo htmlspecialchars($to); ?>" />
+                                <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> part_certi</button>
+                            </form>
+                        </div>
+
+
+                        <?php
+                        echo '</div>';
+                        ?>
+                <?php
+
                         echo '
                         <div class="inbx">
                         <div class="cbx">
                 <canvas id="' . $canvas_id2 . '"></canvas>
               </div>';
 
-                        // JavaScript for the second chart
-                    
 
                         echo '<script>
                 var pp2 = [' . json_encode($emp_p) . '];
@@ -286,11 +305,9 @@ $t = "t";
                 );
               </script>';
 
-                        // Additional information
                         echo '<h1 class="heading">questionnaire2_result: ' . number_format($q2, 2) . '</h1><br>
               ';
 
-                        // Links to answer sheets
                         echo '<a href="preanswersheet.php?emp_id=' . $emp_id . '&training_program_id=' . $training_program_id . '">
                 <h1 class="linkto">Pre Answer Sheet</h1>
               </a>';
@@ -299,12 +316,12 @@ $t = "t";
                 <h1 class="linkto">Post Answer Sheet</h1>
               </a>';
 
-                        echo '</div></div></div>'; // Close divs
+                        echo '</div></div></div>';
                     }
                 }
 
                 ?>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
             </div>

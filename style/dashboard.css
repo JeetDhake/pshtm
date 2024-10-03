@@ -190,3 +190,7 @@ tr:nth-child(even){
     background: #ffff;
     color: #5a5a5a;
 }
+
+.chart-wrapper {
+    overflow-x: auto;
+}

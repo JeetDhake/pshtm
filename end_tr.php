@@ -122,7 +122,13 @@ if (isset($_POST['submit'])) {
 
                                 <?php
 
-                                $select_query = "SELECT * FROM create_training_programs";
+
+                                $select_query = "SELECT s.training_program_id, s.name
+FROM create_training_programs s
+WHERE s.training_program_id NOT IN (
+    SELECT p.training_program_id
+    FROM training_reports p
+);";
                                 $result_query = pg_query($conn, $select_query);
 
                                 while ($row = pg_fetch_assoc($result_query)) {

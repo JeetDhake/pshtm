@@ -122,7 +122,7 @@ if (!isset($_SESSION['admin_id'])) {
                                 $qa1 = $rowX['questionnaire1_result'];
                                 $qa2 = $rowX['questionnaire2_result'];
                                 $av = ($qa2 - $qa1);
-                                
+
                                 $xx[] = $av;
                             }
 
@@ -245,10 +245,12 @@ if (!isset($_SESSION['admin_id'])) {
 
 
 
-
-                    <div class="chartbox">
-                        <canvas id="mychart"></canvas>
+                    <div class="chart-wrapper">
+                        <div class="chartbox">
+                            <canvas id="mychart"></canvas>
+                        </div>
                     </div>
+
 
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -295,10 +297,12 @@ if (!isset($_SESSION['admin_id'])) {
 
             <div class="block1">
                 <div class="bx3">
-                    <div class="chartbox">
-                        <canvas id="mychart2"></canvas>
-                    </div>
+                    <div class="chart-wrapper">
 
+                        <div class="chartbox">
+                            <canvas id="mychart2"></canvas>
+                        </div>
+                    </div>
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
                     <script>

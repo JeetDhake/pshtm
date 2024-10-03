@@ -157,7 +157,15 @@
   
   }
   
-  
+  .ah{
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #555;
+  }
+  .fx{
+    display: flex;
+  }
   
   .container .userProfile {
     position: relative;
@@ -670,3 +678,4 @@
   height: 150px;
   width: 300px;
 }
+
