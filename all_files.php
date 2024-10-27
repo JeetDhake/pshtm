@@ -61,11 +61,11 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                 <small>size: '.$mb.'mb</small>
                 <div class="bt">
                     <a href="'.$location.'">View File</a>
-                    <a href="dloadfil.php?file='.$name.'">Download</a>
+                   
                 </div>
             </div>';
             }
-
+            // <a href="dloadfil.php?file='.$name.'">Download</a>
 ?>
         </div>
     </div>

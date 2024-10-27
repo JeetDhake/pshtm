@@ -18,7 +18,7 @@ body{
 
 .wrapper{
     background: #fff;
-    width: 650px;
+    width: 900px;
     border-radius: 16px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
 }
@@ -47,12 +47,15 @@ body{
     width: 100%;
 }
 
-.pst form .pdetail .f{
+.pst form .pdetail .f, .fx{
     display: flex;
     justify-content: space-between;
 }
 .pst form .pdetail .f input, select{
-    width: 280px;
+    width: 400px;
+}
+.fx input{
+    width: 270px;
 }
 .pst form .fld{
     display: flex;

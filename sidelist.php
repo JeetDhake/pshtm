@@ -25,6 +25,7 @@ include('connect.php');
                 while ($row = pg_fetch_assoc($result_query)) {
                     $emp_id = $row['emp_id'];
                     $emp_first_name = $row['emp_first_name'];
+                    $emp_middle_name = $row['emp_middle_name'];
                     $emp_last_name = $row['emp_last_name'];
             
                     $emp_department_id = $row['department_id'];
@@ -57,7 +58,7 @@ include('connect.php');
                             <img src="img/user1.png" alt="">
                         </a>
                             <div class="detail">
-                                <span>' . $emp_first_name . ' ' . $emp_last_name . '</span>
+                                <span>' . $emp_first_name . ' ' . $emp_middle_name . ' ' . $emp_last_name . '</span>
                                 <p>Dept: ' . $emp_department . ' job: ' . $emp_job_post . '</p>
                                 <div class="bns">
                                     <a href="edit.php?emp_id=' . $emp_id . '">Edit</a>

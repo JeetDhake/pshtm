@@ -1,5 +1,7 @@
 <?php
+
 include('connect.php');
+session_start();
 
 if (isset($_POST['submit'])) {
 
@@ -16,11 +18,11 @@ if (isset($_POST['submit'])) {
     $fileext = explode('.', $filename);
     $fileactext = strtolower(end($fileext));
 
-    $allowed = array('txt', 'pdf', 'docx', 'doc', 'ppt', 'pptx');
+    $allowed = array('txt', 'pdf', 'docx', 'doc', 'ppt', 'pptx', 'mp4');
 
     if (in_array($fileactext, $allowed)) {
         if ($fileerror === 0) {
-            if ($filesize < 500000) {
+            if ($filesize < 100000000) {
 
                 $filenewname = uniqid('', true) . "." . $fileactext;
                 $filedestination = 'docs/' . $filenewname;
@@ -32,28 +34,23 @@ if (isset($_POST['submit'])) {
                 $result_query = pg_query($conn, $insert_file);
                 if ($result_query) {
 
-                    echo "<script>
-                        alert('File Uploaded successfully')
-                      </script>";
-                    header("Location: all_files.php");
+                    $_SESSION['message'] = "File Uploaded successfully";
+                    header("Location: upload_file.php");
                 }
             } else {
-                echo "<script>
-                alert('File size exceeded 500mb')
-              </script>";
+                $_SESSION['message'] = "File size exceeded 100mb";
+                header("Location: upload_file.php");
                 exit();
             }
         } else {
-            echo "<script>
-            alert('Error Uploading File')
-          </script>";
+            $_SESSION['message'] = "Error Uploading File";
+            header("Location: upload_file.php");
             exit();
         }
     } else {
 
-        echo "<script>
-                alert('File type no supported')
-              </script>";
+        $_SESSION['message'] = "File type no supported";
+        header("Location: upload_file.php");
         exit();
     }
 }

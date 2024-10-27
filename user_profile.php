@@ -121,7 +121,7 @@ $t = "t";
         <section class="userDetails card">
             <div class="userName">
                 <h1 class='name'>
-                    <?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>
+                    <?php echo $row['emp_first_name'] . " " . $row['emp_middle_name'] . " " . $row['emp_last_name'] ?>
                 </h1>
 
                 <div class="map">

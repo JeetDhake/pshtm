@@ -13,7 +13,7 @@ if (isset($_POST['submit'])) {
 
     $dept_id = $_POST['department_id'];
     $job_post_id = $_POST['job_post_id'];
-
+    $emp_id = $_POST['emp_id'];
     $trainer_id = $_POST['trainer_id'];
 
     $status = "true";
@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
             alert('enter all fields')
             </script>";
         exit();
-    } else if(pg_num_rows($result_check) > 0){
+    } else if (pg_num_rows($result_check) > 0) {
         echo "<script>
             alert('Id already exists')
             </script>";
@@ -43,8 +43,10 @@ if (isset($_POST['submit'])) {
 
         foreach ($dept_id as $deptlist) {
             foreach ($job_post_id as $joblist) {
-                $insert1 = "INSERT INTO training_relations(training_program_id,job_post_id,department_id) VALUES ( $training_program_id , $joblist , $deptlist )";
-                $result_query1 = pg_query($conn, $insert1);
+                foreach ($emp_id as $empid) {
+                    $insert1 = "INSERT INTO training_relations(training_program_id,job_post_id,department_id,employee_id) VALUES ( $training_program_id , $joblist , $deptlist, $empid )";
+                    $result_query1 = pg_query($conn, $insert1);
+                }
             }
         }
 
@@ -82,13 +84,13 @@ if (isset($_POST['submit'])) {
 
 <body>
     <?php
-if (isset($_SESSION['admin_id'])) {
-    require_once("navbar.html");
-}
-if(isset($_SESSION['trainer_id'])) {
-    require_once("navbar2.html");
-}
-?>
+    if (isset($_SESSION['admin_id'])) {
+        require_once("navbar.html");
+    }
+    if (isset($_SESSION['trainer_id'])) {
+        require_once("navbar2.html");
+    }
+    ?>
     <?php require_once("sidebartr.html") ?>
 
     <div class="container">
@@ -118,7 +120,7 @@ if(isset($_SESSION['trainer_id'])) {
 
                         <div class="fld">
                             <label for="">Department</label>
-                            <select name="department_id[]" id="department_id" multiple>
+                            <select name="department_id[]" id="department_id" onchange="fetchdata()" multiple>
                                 <option value="">Select Department</option>
 
                                 <?php
@@ -139,7 +141,7 @@ if(isset($_SESSION['trainer_id'])) {
 
                         <div class="fld">
                             <label for="">Job Post</label>
-                            <select name="job_post_id[]" id="job_post_id" multiple>
+                            <select name="job_post_id[]" id="job_post_id" onchange="fetchdata()" multiple>
                                 <option value="">Select jobpost</option>
 
                                 <?php
@@ -186,18 +188,107 @@ if(isset($_SESSION['trainer_id'])) {
                             <input type="submit" value="Create Training" name="submit" id="submit">
                         </div>
                     </div>
-                </form>
+
             </section>
         </div>
+        <div class="se">
 
+
+            <label for="employee_id">Employees:</label>
+            <select id="emp_id" name="emp_id[]" multiple>
+
+            </select>
+
+
+        </div>
+        </form>
     </div>
     <script src="multi-select-tag.js"></script>
     <script>
-        new MultiSelectTag('department_id');
-        new MultiSelectTag('job_post_id');
-        new MultiSelectTag('trainer_id');
+        document.addEventListener('DOMContentLoaded', function() {
+            new MultiSelectTag('department_id', {
+                onChange: () => {
+                    fetchdata();
+                }
+            });
+
+
+
+            new MultiSelectTag('job_post_id', {
+                onChange: () => {
+                    fetchdata();
+                }
+            });
+            new MultiSelectTag('trainer_id');
+        });
     </script>
     <script src="manage.js"></script>
+
+    <script>
+function fetchdata() {
+    const departmentSelect = document.getElementById('department_id');
+    const selectedDepartments = Array.from(departmentSelect.selectedOptions).map(option => option.value);
+
+    const jobPostSelect = document.getElementById('job_post_id');
+    const selectedJobPosts = Array.from(jobPostSelect.selectedOptions).map(option => option.value);
+
+    console.log("Selected Departments:", selectedDepartments);
+    console.log("Selected Job Posts:", selectedJobPosts);
+
+    if (selectedDepartments.length === 0 && selectedJobPosts.length === 0) {
+        document.getElementById('emp_id').innerHTML = '';
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('POST', 'dptemp.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+                var response = JSON.parse(xhr.responseText);
+                console.log("Response Data:", response); 
+
+                const employeeSelect = document.getElementById('emp_id');
+                employeeSelect.innerHTML = ''; 
+
+                const employees = response.employees;
+
+                if (Array.isArray(employees) && employees.length > 0) {
+                    employees.forEach(employee => {
+                        const option = document.createElement('option');
+                        option.value = employee.emp_id;
+                        option.textContent = `${employee.emp_first_name} ${employee.emp_middle_name} ${employee.emp_last_name}`;
+                        employeeSelect.appendChild(option);
+                    });
+                } else {
+                    console.log('No employees found in the response.');
+                }
+            } catch (e) {
+                console.error('Failed to parse JSON response:', e);
+                console.log('Raw response:', xhr.responseText); 
+            }
+        } else {
+            console.error('Request failed with status:', xhr.status);
+            console.log('Response text:', xhr.responseText); 
+        }
+    };
+
+    xhr.onerror = function() {
+        console.error('Request error');
+    };
+
+    var payload = JSON.stringify({
+        department_ids: selectedDepartments,
+        job_post_ids: selectedJobPosts
+    });
+
+    xhr.send(payload);
+}
+
+    </script>
 </body>
 
 </html>

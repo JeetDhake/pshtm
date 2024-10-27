@@ -39,6 +39,9 @@ if (!isset($_SESSION['admin_id'])) {
                         $password = pg_escape_string($_POST['password']);
 
                         $emp_first_name =  pg_escape_string($_POST['emp_first_name']);
+
+                        $emp_middle_name = pg_escape_string($_POST['emp_middle_name']);
+
                         $emp_last_name =  pg_escape_string($_POST['emp_last_name']);
                         $emp_department =  pg_escape_string($_POST['department_id']);
                         $emp_job_post =  pg_escape_string($_POST['job_post_id']);
@@ -69,7 +72,7 @@ if (!isset($_SESSION['admin_id'])) {
 
 
 
-                                if ($emp_first_name == '' or $emp_last_name == '' or $emp_department == '' or $emp_job_post == '' or $emp_email == '' or $emp_phone == '' /*or $emp_image == '' */ or $emp_uid == '' or $password == '') {
+                                if ($emp_first_name == '' or $emp_middle_name == '' or $emp_last_name == '' or $emp_department == '' or $emp_job_post == '' or $emp_email == '' or $emp_phone == '' /*or $emp_image == '' */ or $emp_uid == '' or $password == '') {
                                     echo "<script>
                                     alert('enter all fields')
                                   </script>";
@@ -78,7 +81,7 @@ if (!isset($_SESSION['admin_id'])) {
 
                                     // move_uploaded_file($tmp_image, "db_img/$filenewname");
 
-                                    $insert_user = "INSERT INTO employee_records (emp_first_name,emp_last_name,department_id,job_post_id,emp_email,emp_mobile,emp_status,emp_uid,password) VALUES ('$emp_first_name','$emp_last_name','$emp_department','$emp_job_post','$emp_email','$emp_phone','$status','$emp_uid','$password')";
+                                    $insert_user = "INSERT INTO employee_records (emp_first_name,emp_middle_name,emp_last_name,department_id,job_post_id,emp_email,emp_mobile,emp_status,emp_uid,password) VALUES ('$emp_first_name','$emp_middle_name','$emp_last_name','$emp_department','$emp_job_post','$emp_email','$emp_phone','$status','$emp_uid','$password')";
 
                                     $result_query = pg_query($conn, $insert_user);
                                     if ($result_query) {
@@ -96,7 +99,7 @@ if (!isset($_SESSION['admin_id'])) {
                     <form action="" method="POST" enctype="multipart/form-data">
 
                         <div class="pdetail">
-                            <div class="f">
+                            
                                 <!-- <div class="fld img">
                                     <label for="">Post Image</label>
                                     <label for="img" id="drop">
@@ -109,98 +112,101 @@ if (!isset($_SESSION['admin_id'])) {
                                         </div>
                                     </label>
                                 </div> -->
-                                
-                                    <div class="fld fld1">
-                                        <label for="">Employee_id</label>
-                                        <input type="number" name="emp_uid" id="emp_uid" placeholder="id" required>
-
-                                        <label for="">Password</label>
-                                        <input type="text" name="password" id="password" placeholder="Create Password" required>
-
-                                    </div>
-                                    <div class="in">
-                                    <div class="fld fld1">
-                                        <label for="">First Name</label>
-                                        <input type="text" name="emp_first_name" id="first_name" placeholder="Enter Frist Name" required>
-
-                                    </div>
-
-
-                                    <div class="fld fld1">
-                                        <label for="">Last Name</label>
-                                        <input type="text" name="emp_last_name" id="last_name" placeholder="Enter Last Name" required>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="f">
-
-                                <div class="fld">
-                                    <label for="">Department</label>
-                                    <select name="department_id">
-                                        <option value="">Select Department</option>
-                                        <?php
-
-                                        $select_query = "SELECT * FROM department";
-                                        $result_query = pg_query($conn, $select_query);
-
-                                        while ($row = pg_fetch_assoc($result_query)) {
-                                            $emp_department_name = $row['department_name'];
-                                            $emp_department_id = $row['department_id'];
-
-                                            echo "<option value='$emp_department_id'>$emp_department_name</option>";
-                                        }
-
-                                        ?>
-                                    </select>
-                                </div>
-
-                                <div class="fld">
-                                    <label for="">Job post</label>
-                                    <select name="job_post_id">
-                                        <option value="">Select Job_Post</option>
-
-                                        <?php
-
-                                        $select_query = "SELECT * FROM job_post";
-                                        $result_query = pg_query($conn, $select_query);
-
-                                        while ($row = pg_fetch_assoc($result_query)) {
-                                            $emp_job_post_id = $row['job_post_id'];
-                                            $emp_job_post = $row['job_post_name'];
-
-                                            echo "<option value='$emp_job_post_id'>$emp_job_post</option>";
-                                        }
-
-                                        ?>
-                                    </select>
-                                </div>
-
-                            </div>
 
                             <div class="f">
-                                <div class="fld">
-                                    <label for="">Email</label>
-                                    <input type="email" name="emp_email" id="email" placeholder="Email@gmail.com" required>
+                                <div class="fld fld1">
+                                    <label for="">Employee_id</label>
+                                    <input type="number" name="emp_uid" id="emp_uid" placeholder="id" required>
+                                </div>
+                                <div class="fld fld1">
+                                    <label for="">Password</label>
+                                    <input type="text" name="password" id="password" placeholder="Create Password" required>
+                                </div>
 
+                            </div>
+                            <div class="fx">
+                                <div class="fld fld1">
+                                    <label for="">First Name</label>
+                                    <input type="text" name="emp_first_name" id="first_name" placeholder="Enter Frist Name" required>
                                 </div>
-                                <div class="fld">
-                                    <label for="">Phone</label>
-                                    <input type="number" name="emp_mobile" id="phone" placeholder="Enter Phone Number" required>
+                                <div class="fld fld1">
+                                    <label for="">Middle Name</label>
+                                    <input type="text" name="emp_middle_name" id="middle_name" placeholder="Enter Middle Name" required>
                                 </div>
+                                <div class="fld fld1">
+                                    <label for="">Last Name</label>
+                                    <input type="text" name="emp_last_name" id="last_name" placeholder="Enter Last Name" required>
+                                </div>
+
+                            </div>
+                      
+                        <div class="f">
+
+                            <div class="fld">
+                                <label for="">Department</label>
+                                <select name="department_id">
+                                    <option value="">Select Department</option>
+                                    <?php
+
+                                    $select_query = "SELECT * FROM department";
+                                    $result_query = pg_query($conn, $select_query);
+
+                                    while ($row = pg_fetch_assoc($result_query)) {
+                                        $emp_department_name = $row['department_name'];
+                                        $emp_department_id = $row['department_id'];
+
+                                        echo "<option value='$emp_department_id'>$emp_department_name</option>";
+                                    }
+
+                                    ?>
+                                </select>
                             </div>
 
+                            <div class="fld">
+                                <label for="">Job post</label>
+                                <select name="job_post_id">
+                                    <option value="">Select Job_Post</option>
 
-                            <div class="fld btn">
-                                <input type="submit" value="Register Employee" name="submit" id="submit">
+                                    <?php
+
+                                    $select_query = "SELECT * FROM job_post";
+                                    $result_query = pg_query($conn, $select_query);
+
+                                    while ($row = pg_fetch_assoc($result_query)) {
+                                        $emp_job_post_id = $row['job_post_id'];
+                                        $emp_job_post = $row['job_post_name'];
+
+                                        echo "<option value='$emp_job_post_id'>$emp_job_post</option>";
+                                    }
+
+                                    ?>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="f">
+                            <div class="fld">
+                                <label for="">Email</label>
+                                <input type="email" name="emp_email" id="email" placeholder="Email@gmail.com" required>
+
+                            </div>
+                            <div class="fld">
+                                <label for="">Phone</label>
+                                <input type="number" name="emp_mobile" id="phone" placeholder="Enter Phone Number" required>
                             </div>
                         </div>
-                    </form>
 
-                </section>
+
+                        <div class="fld btn">
+                            <input type="submit" value="Register Employee" name="submit" id="submit">
+                        </div>
             </div>
+            </form>
+
+            </section>
         </div>
+    </div>
     </div>
     <script src="employee.js"></script>
 </body>

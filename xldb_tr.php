@@ -46,24 +46,22 @@ if (isset($_POST['import'])) {
                         header('location: import_tr.php');
                         exit(0);
                     }
-                    // $check = "SELECT * FROM create_training_programs WHERE training_program_id = $training_program_id";
-                    // $result_check = pg_query($conn, $check);
-                    // if (pg_num_rows($result_check) > 0) {
+                    $check = "SELECT * FROM create_training_programs WHERE training_program_id = $training_program_id";
+                    $result_check = pg_query($conn, $check);
+                    if (pg_num_rows($result_check) > 0) {
+                        //do nothing
+                    }
+                    else{
+                        $insert_1 = "INSERT INTO create_training_programs (training_program_id, name, training_desc, training_status) VALUES ($1, $2, $3, $4)";
+                        $result_1 = pg_query_params($conn, $insert_1, [$training_program_id, $name, $training_desc, $status]);
+                    }
 
-                    //     pg_query($conn, "ROLLBACK");
-                    //     $_SESSION['message'] = "Import Failed: Id exists";
-                    //     header('location: import_tr.php');
-                    //     exit(0);
-                    // }
-
-                    $insert_1 = "INSERT INTO create_training_programs (training_program_id, name, training_desc, training_status) VALUES ($1, $2, $3, $4)";
-                    $result_1 = pg_query_params($conn, $insert_1, [$training_program_id, $name, $training_desc, $status]);
 
                     $insert_2 = "INSERT INTO questions (que_text, training_program_id, ques_type, answer, option_1, option_2, option_3, option_4) 
                     VALUES ( '$question_text','$training_program_id', '$type', '$answer', '$option_1', '$option_2', '$option_3', '$option_4')";
                     $result_2 = pg_query($conn, $insert_2);
 
-                    if (!$result_1 || !$result_2) {
+                    if (!$result_2) {
                         throw new Exception('Database insertion failed: ' . pg_last_error($conn));
                     }
                     $msg = true;

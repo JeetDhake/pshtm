@@ -19,7 +19,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
 </head>
 
 <body>
-    <?php require_once("navbar.html")?>
+    <?php require_once("navbar.html") ?>
 
     <div class="sidebar">
         <div class="links">
@@ -34,9 +34,9 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
             <hr>
         </div>
     </div>
-    
 
-   
+
+
     <div class="containerx">
 
 
@@ -46,26 +46,35 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                     <header>
                         Upload Docs
                     </header>
-                    
+
                     <form action="upload.php" method="POST" enctype="multipart/form-data">
 
                         <div class="pdetail">
-                   
-                                <div class="fld img">
-                                    <label for="">add (txt, pdf, docx, doc, ppt, pptx)</label>
-                                    <label for="img" id="drop">
-                                        <input type="file" name="file" id="img" hidden>
+                            <?php
+                            if (isset($_SESSION['message'])) {
+                                $msg = $_SESSION['message'];
+                                echo "<div class='emsg'>
+                                        <p>$msg</p>
+                                    </div>";
+                                unset($_SESSION['message']);
+                            }
+                            ?>
 
-                                        <div id="img-view">
+                            <div class="fld img">
+                                <label for="">add (txt, pdf, docx, doc, ppt, pptx, mp4)</label>
+                                <label for="img" id="drop">
+                                    <input type="file" name="file" id="img" hidden>
 
-                                            <i class="fa-solid fa-cloud-arrow-up"></i>
-                                            <p>Drag and Drop<br>click here to Upload File</p>
-                                        </div>
-                                    </label>
-                                </div>
-                                
-                     
-   
+                                    <div id="img-view">
+
+                                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        <p>Drag and Drop<br>click here to Upload File</p>
+                                    </div>
+                                </label>
+                            </div>
+
+
+
                             <div class="f">
                                 <div class="fld">
                                     <label for="">Book Title</label>
@@ -75,7 +84,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                                 </div>
                                 <div class="fld">
                                     <label for="">Author</label>
-                                    <input type="text" name="author" id="author" placeholder="writer name"required>
+                                    <input type="text" name="author" id="author" placeholder="writer name" required>
                                 </div>
                             </div>
 
@@ -83,7 +92,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                             <div class="fld btn">
                                 <input type="submit" value="Upload File" name="submit" id="submit">
                             </div>
-         
+
                         </div>
                     </form>
 
@@ -92,7 +101,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
         </div>
     </div>
 
-<script src="upload.js"></script>
+    <script src="upload.js"></script>
     <script src="manage.js"></script>
 </body>
 

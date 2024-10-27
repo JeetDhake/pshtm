@@ -80,6 +80,7 @@ if (!isset($_SESSION['admin_id'])) {
     while ($row = pg_fetch_assoc($result_query)) {
         $emp_id = $row['emp_id'];
         $emp_first_name = $row['emp_first_name'];
+        $emp_middle_name = $row['emp_middle_name'];
         $emp_last_name = $row['emp_last_name'];
 
         $emp_department_id = $row['department_id'];
@@ -110,7 +111,7 @@ if (!isset($_SESSION['admin_id'])) {
             <a href="profile.php?emp_id='.$emp_id.'">
                 <div class="card-container">
                     <img class="round" src="img/user1.png" alt="user" />
-                    <h3>' . $emp_first_name . ' ' . $emp_last_name . '</h3>
+                    <h3>' . $emp_first_name . ' ' . $emp_middle_name . ' ' . $emp_last_name . '</h3>
 
                     <p>' . $emp_email . ' ' . $emp_phone . '</p>
                     <h6>Department: ' . $emp_department . '</h6>

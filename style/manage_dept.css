@@ -25,6 +25,41 @@ body{
     border-radius: 16px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
 }
+.se{
+    background: #fff;
+    width: 350px;
+    height: 600px;
+    border-radius: 16px;
+    margin: 15px;
+    padding: 10px;
+ 
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
+}
+*::-webkit-scrollbar {
+    width: 4px;
+   
+  }
+  
+*::-webkit-scrollbar-track {
+    background: #f1f1f1;
+
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+
+  }
+  
+  *::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+
+  #emp_id{
+ 
+    height: 550px;
+  }
 
 .pst{
     padding: 25px 30px;
