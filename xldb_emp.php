@@ -29,14 +29,14 @@ if (isset($_POST['import'])) {
                     $emp_mobile = $row['2'];
                     $emp_email = pg_escape_string($row['3']);
 
-                    $job_post_id = $row['4'];
-                    $department_id = $row['5'];
+                    $job_post = $row['4'];
+                    $department = $row['5'];
                     $emp_uid = intval($row['6']);
                     $password = pg_escape_string($row['7']);
 
                     $status = "true";
 
-                    if (empty($emp_first_name) || empty($emp_last_name) || empty($emp_mobile) || empty($emp_email) || empty($job_post_id) || empty($department_id) || empty($emp_uid) || empty($password)) {
+                    if (empty($emp_first_name) || empty($emp_last_name) || empty($emp_mobile) || empty($emp_email) || empty($job_post) || empty($department) || empty($emp_uid) || empty($password)) {
 
                         pg_query($conn, "ROLLBACK");
                         $_SESSION['message'] = "Import failed: empty values";
@@ -44,6 +44,31 @@ if (isset($_POST['import'])) {
                         exit(0);
                     }
 
+                    $get_jpid = "SELECT job_post_id FROM job_post WHERE job_post_name = '$job_post'";
+                    $res_jpid = pg_query($conn, $get_jpid);
+
+                    if ($res_jpid) {
+                        $row = pg_fetch_assoc($res_jpid);
+                        $job_post_id = $row['job_post_id']; 
+                    } else { 
+                        pg_query($conn, "ROLLBACK");
+                        $_SESSION['message'] = "Import failed: invalid jobpost";
+                        header('location: import_emp.php');
+                        exit(0);
+                    }
+
+                    $get_dpid = "SELECT department_id FROM department WHERE department_name = '$department'";
+                    $res_dpid = pg_query($conn, $get_dpid);
+
+                    if ($res_dpid) {
+                        $row = pg_fetch_assoc($res_dpid);
+                        $department_id = $row['department_id']; 
+                    } else { 
+                        pg_query($conn, "ROLLBACK");
+                        $_SESSION['message'] = "Import failed: invalid department";
+                        header('location: import_emp.php');
+                        exit(0);
+                    }
 
                     $check_id = "SELECT * FROM employee_records WHERE emp_uid = $emp_uid";
                     $res_q = pg_query($conn, $check_id);

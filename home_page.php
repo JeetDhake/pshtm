@@ -48,7 +48,8 @@ while ($row11 = pg_fetch_assoc($res11)) {
                 <h3>Current Training</h3>
             </div>
             <?php
-            $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE department_id = $e_deptid OR job_post_id = $e_jpid";
+            // $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE department_id = $e_deptid OR job_post_id = $e_jpid";
+            $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE employee_id = $emp_id";
             $res1 = pg_query($conn, $sql1);
             if ($res1) {
                 while ($row1 = pg_fetch_assoc($res1)) {
@@ -99,7 +100,8 @@ while ($row11 = pg_fetch_assoc($res11)) {
                 <h3>Training History</h3>
             </div>
             <?php
-            $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE department_id = $e_deptid OR job_post_id = $e_jpid";
+            // $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE department_id = $e_deptid OR job_post_id = $e_jpid";
+            $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE employee_id = $emp_id";
             $res1 = pg_query($conn, $sql1);
             if ($res1) {
                 while ($row1 = pg_fetch_assoc($res1)) {
@@ -156,7 +158,8 @@ while ($row11 = pg_fetch_assoc($res11)) {
 
             window.location.href = url;
         }
-        function action_re(tr_id){
+
+        function action_re(tr_id) {
             const emp_id = <?php echo $emp_id; ?>;
             const url = `user_profile.php#${encodeURIComponent(tr_id)}`;
 

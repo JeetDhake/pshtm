@@ -15,11 +15,13 @@
 .lg-container {
     padding-left: 7%;
 }
-
+.xo{
+    display: flex;
+}
 .one{
     margin-top: 1.4rem;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     padding: 5px;
 }
 .two{
@@ -43,6 +45,9 @@
    box-shadow: 1px 1px 5px #0003;
 
    border-radius: 10px;
+} 
+.card{
+    width: 250px;
 }
 .block .midl{
     display: flex;
@@ -383,7 +388,7 @@ body{
     height: 500px;
 }
 .pst{
-    padding: 25px 30px;
+    padding: 7px 12px;
 }
 .pst header{
     font-size: 25px;
@@ -482,12 +487,18 @@ body{
     display: flex;
 }
 .scr{
-    max-height: 250px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+.scrx{
+    max-height: 350px;
     overflow-y: auto;
 }
 
 
-
+thead {
+    position: sticky; 
+}
 .tab-buttons {
     display: flex;
     border-bottom: 1px solid #ccc;
@@ -523,4 +534,46 @@ body{
 
 .tab-panel.active {
     display: block;
+}
+
+.dplist{
+    overflow-y: auto;
+    height: 200px;
+}
+.searchbox {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s;
+}
+
+.searchbox:hover {
+    border-color: #005cbf;
+}
+
+.searchbox input[type="text"] {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.searchbox input[type="text"]::placeholder {
+    color: #999;
+}
+
+.searchbox i {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.searchbox i:hover {
+    color: #007bff;
 }

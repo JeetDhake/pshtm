@@ -46,7 +46,7 @@ if(!isset($_SESSION['emp_id'])){
                 <small>size: ' . $rmb . ' mb</small>
                 <div class="bt">
                     <a href="' . $location . '">View File</a>
-                    <a href="dloadfil.php?file=' . $name . '">Download</a>
+                    
                 </div>
             </div>';
             }
@@ -54,7 +54,7 @@ if(!isset($_SESSION['emp_id'])){
             ?>
         </div>
     </div>
-
+    <!-- <a href="dloadfil.php?file=' . $name . '">Download</a> -->
 </body>
 
 </html>

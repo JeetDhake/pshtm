@@ -122,8 +122,8 @@ if (isset($_GET['tr_id'])) {
         </div>
     </div>
     <script src="gen.js"></script>
-        
-  
+
+
     <?php
 
     if (isset($_GET['tr_id'])) {
@@ -231,7 +231,7 @@ if (isset($_POST['submit'])) {
         $res_q = "SELECT COUNT(*) AS right_ans_count
 FROM pre_student_ans psa
 JOIN questions qu ON psa.ques_id = qu.ques_id
-WHERE psa.pre_student_ans = qu.answer
+WHERE psa.pre_student_ans = qu.answer AND qu.training_program_id = $tr_id
 AND psa.emp_id = $empid
 ";
         $re_day = pg_query($conn, $res_q);
@@ -239,17 +239,19 @@ AND psa.emp_id = $empid
             $caa = $ca['right_ans_count'];
         }
         $tot_q = "SELECT COUNT(*) AS ans_count
-FROM pre_student_ans psa
-JOIN questions qu ON psa.ques_id = qu.ques_id
-WHERE psa.ques_id = qu.ques_id
-AND psa.emp_id = $empid
+FROM questions WHERE training_program_id = $tr_id
 ";
         $tac = pg_query($conn, $tot_q);
         while ($tt = pg_fetch_assoc($tac)) {
             $total = $tt['ans_count'];
         }
 
-        $per = ($caa / $total) * 100;
+        if ($total > 0) {
+            $per = ($caa / $total) * 100;
+        } else {
+            $per = 0;
+        }
+
 
         $insert = "INSERT INTO employee_reports (emp_id, training_program_id, questionnaire1_result) 
         VALUES ('$empid', '$tr_id', '$per')";
@@ -272,7 +274,7 @@ AND psa.emp_id = $empid
         $res_q1 = "SELECT COUNT(*) AS right_ans_count
         FROM post_student_ans psa
         JOIN questions qu ON psa.ques_id = qu.ques_id
-        WHERE psa.post_student_ans = qu.answer
+        WHERE psa.post_student_ans = qu.answer AND qu.training_program_id = $tr_id
         AND psa.emp_id = $empid
         ";
         $re_day1 = pg_query($conn, $res_q1);
@@ -280,18 +282,21 @@ AND psa.emp_id = $empid
             $caa1 = $ca1['right_ans_count'];
         }
         $tot_q1 = "SELECT COUNT(*) AS ans_count
-        FROM post_student_ans psa
-        JOIN questions qu ON psa.ques_id = qu.ques_id
-        WHERE psa.ques_id = qu.ques_id
-        AND psa.emp_id = $empid
-        ";
+FROM questions WHERE training_program_id = $tr_id
+";
+        
+        
         $tac1 = pg_query($conn, $tot_q1);
         while ($tt1 = pg_fetch_assoc($tac1)) {
             $total1 = $tt1['ans_count'];
         }
-
-        $per1 = ($caa1 / $total1) * 100;
-
+        
+        if ($total1 > 0) {
+            $per1 = ($caa1 / $total1) * 100;
+        } else {
+            $per1 = 0;
+        }
+        
 
         $q_q = "SELECT * FROM employee_reports WHERE emp_id = $empid";
         $res_q_q = pg_query($conn, $q_q);
@@ -325,9 +330,7 @@ AND psa.emp_id = $empid
           </script>";
         // header("location: home_page.php");
         exit;
-        
     }
-    
 }
 
 ?>

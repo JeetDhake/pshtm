@@ -26,14 +26,8 @@ if (!isset($_SESSION['admin_id'])) {
     <?php require_once("navbar.html") ?>
     <?php require_once("sidebana.html") ?>
     <div class="container">
-        <div class="">
-            <div class="col-md-12">
-                <div class="card mt-3">
-                    <div class="card-header">
-                        <h4>Filter data</h4>
-                    </div>
-                </div>
-            </div>
+        <div class="xo">
+         
 
             <div class="one">
                 <div class="block">
@@ -45,7 +39,7 @@ if (!isset($_SESSION['admin_id'])) {
                                 <button type="submit" class="btn">Search</button>
 
                             </div>
-                            <div class="card-body">
+                            <div class="card-body dplist">
                                 <h6>Dept List</h6>
                                 <hr>
                                 <?php

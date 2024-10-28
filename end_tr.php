@@ -6,6 +6,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     header("location: admin_login.php");
 }
 
+
 if (isset($_POST['submit'])) {
 
     $training_program_id = $_POST['training_program_id'];
@@ -107,6 +108,7 @@ if (isset($_POST['submit'])) {
             <section class="pst">
                 <header>
                     Finish Training
+
                 </header>
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="pdetail">
@@ -156,28 +158,37 @@ WHERE s.training_program_id NOT IN (
                             </div>
 
                         </div>
-                        <div class="fld">
-                            <label for="">Auto report Gen</label>
-                            <select name="employee_id[]" id="employee_id" multiple>
-                                <option value="">Select Employees</option>
+                        <?php
+                        $idid = $_SESSION['admin_id'];
 
-                                <?php
+                        if ($idid == 911) {
 
-                                $select_query = "SELECT * FROM employee_records";
-                                $result_query = pg_query($conn, $select_query);
+                        ?>
+                            <div class="fld">
+                                <label for="">Auto report Gen</label>
+                                <select name="employee_id[]" id="employee_id" multiple>
+                                    <option value="">Select Employees</option>
 
-                                while ($row = pg_fetch_assoc($result_query)) {
-                                    $first_name = $row['emp_first_name'];
-                                    $last_name = $row['emp_last_name'];
-                                    $emp_id = $row['emp_id'];
-                                    $emp_uid = $row['emp_uid'];
+                                    <?php
 
-                                    echo "<option value='$emp_id'>" . $emp_uid . ": " . $first_name . " " . $last_name . "</option>";
-                                }
+                                    $select_query = "SELECT * FROM employee_records";
+                                    $result_query = pg_query($conn, $select_query);
 
-                                ?>
-                            </select>
-                        </div>
+                                    while ($row = pg_fetch_assoc($result_query)) {
+                                        $first_name = $row['emp_first_name'];
+                                        $last_name = $row['emp_last_name'];
+                                        $emp_id = $row['emp_id'];
+                                        $emp_uid = $row['emp_uid'];
+
+                                        echo "<option value='$emp_id'>" . $emp_uid . ": " . $first_name . " " . $last_name . "</option>";
+                                    }
+
+                                    ?>
+                                </select>
+                            </div>
+                        <?php
+                        }
+                        ?>
                         <div class="f">
                             <div class="fld">
                                 <label for="">Attendance</label>
@@ -196,7 +207,7 @@ WHERE s.training_program_id NOT IN (
                         <div class="fld img">
                             <label for="">Post Image</label>
                             <label for="img" id="drop">
-                                <input type="file" name="tr_image" id="img" hidden>
+                                <input type="file" name="tr_image" accept="image/*" capture="environment" id="img" hidden>
 
                                 <div id="img-view">
 

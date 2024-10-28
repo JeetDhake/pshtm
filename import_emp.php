@@ -69,8 +69,8 @@ session_start();
                         <td>emp_email</td>
                     </tr>
                     <tr>
-                        <td>job_post_id</td>
-                        <td>department_id</td>
+                        <td>job_post</td>
+                        <td>department</td>
                         <td>emp_uid</td>
                         <td>password</td>
                     </tr>

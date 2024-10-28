@@ -60,19 +60,10 @@ if (!isset($_SESSION['admin_id'])) {
                         </h3>
                     </div>
                     <div class="tab-buttons">
-                        <button class="tab-button active" onclick="showTab('tab1')">Table</button>
-                        <button class="tab-button" onclick="showTab('tab2')">Charts</button>
+                        <!-- <button class="tab-button active" onclick="showTab('tab1')">Table</button> -->
+                        <!-- <button class="tab-button" onclick="showTab('tab2')">Charts</button> -->
                     </div>
-                    <div class="f fl">
-
-                        <div class="fld">
-                            <a href="view_form.php?training_program_id=<?php echo $training_program_id; ?>">
-                                <div class="xx">
-
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+  
                 </div>
             </section>
 
@@ -188,8 +179,8 @@ if (!isset($_SESSION['admin_id'])) {
                 </div>
             </div>
 
-            <div id="tab1" class="tab-panel active">
-                <table>
+            <div id="tab1" class="tab-panel active scrx">
+            <table id="dataTable">
                     <thead>
                         <tr>
                             <th>emp_uid</th>
@@ -199,9 +190,9 @@ if (!isset($_SESSION['admin_id'])) {
                             <th>emp_post_res</th>
                         </tr>
                     </thead>
-                </table>
-                <div class="scr">
-                    <table>
+          
+             
+                    
 
 
                         <?php
@@ -240,15 +231,16 @@ if (!isset($_SESSION['admin_id'])) {
 
 
                     </table>
-                </div>
+                    
+            
             </div>
-
+            <button id="exportButton">Export to CSV</button>
         </div>
-
+        
     </div>
     <script src="tab.js"></script>
     <script src="manage.js"></script>
-
+    <script src="export_csv.js"></script>
 </body>
 
 </html>
