@@ -6,6 +6,7 @@ if (!isset($_SESSION['emp_id'])) {
 }
 
 $t = "t";
+
 ?>
 
 
@@ -207,17 +208,19 @@ $t = "t";
                         }
                         $sqryz = "SELECT * FROM training_reports WHERE training_program_id = $training_program_id";
                         $rsqryz = pg_query($conn, $sqryz);
-                        while($rowz = pg_fetch_assoc($rsqryz)){
-                            $to = $rowz['end_date'];
-                            $from = $rowz['start_date'];
+                        while ($rowz = pg_fetch_assoc($rsqryz)) {
+                            // $to = $rowz['end_date'];
+                            // $from = $rowz['start_date'];
+                            $date = $rowz['date'];
                         }
+
 
                         $canvas_id1 = "mychart_" . $training_program_id . "_1";
                         $canvas_id2 = "mychart_" . $training_program_id . "_2";
 
                         echo '<div class="chartbox">
                 <canvas id="' . $canvas_id1 . '"></canvas>
-              </div>';
+            </div>';
 
                         echo '<script>
                 var pp1 = ' . json_encode($prepost) . ';
@@ -252,25 +255,55 @@ $t = "t";
 
          ';
                 ?>
+                        <?php
+                        $trainer_name = array();
+                        $trainer_sign = array();
+                        $sqlt = pg_query($conn, "SELECT * FROM training_trainer_relation WHERE training_program_id = $training_program_id");
+                        while ($rowt = pg_fetch_assoc($sqlt)) {
+                            $trainer_id = $rowt['trainer_id'];
+
+                            $sqlt = pg_query($conn, "SELECT * FROM trainer_records WHERE trainer_id = $trainer_id");
+                            while ($rowt = pg_fetch_assoc($sqlt)) {
+                                $trainer_name[] = $rowt['first_name'] . " " . $rowt['last_name'];
+                                $trainer_sign[] = $rowt['sign'];
+                            }
+                        }
+                        $trainer_name_str = implode(',', $trainer_name);
+                        $trainer_sign_str = implode(',', $trainer_sign);
+                        ?>
                         <div class="fx">
+                        <?php
+                        if($date){
+                        ?>
                             <form action="pdfxd.php" method="POST">
                                 <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>">
+
+                                <input type="hidden" name="trainer_name" value="<?php echo htmlspecialchars($trainer_name_str); ?>">
+                                <input type="hidden" name="trainer_sign" value="<?php echo htmlspecialchars($trainer_sign_str); ?>">
 
                                 <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> comp_certi</button>
                             </form>
                             <form action="pdfyd.php" method="POST">
                                 <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>" />
-                                <input type="hidden" name="from" value="<?php echo htmlspecialchars($from); ?>" />
-                                <input type="hidden" name="to" value="<?php echo htmlspecialchars($to); ?>" />
+
+                                <input type="hidden" name="trainer_name" value="<?php echo htmlspecialchars($trainer_name_str); ?>">
+                                <input type="hidden" name="trainer_sign" value="<?php echo htmlspecialchars($trainer_sign_str); ?>">
+
+                                <!-- <input type="hidden" name="from" value="<?php //echo htmlspecialchars($from); 
+                                                                                ?>" />
+                                <input type="hidden" name="to" value="<?php //echo htmlspecialchars($to); 
+                                                                        ?>" /> -->
+                                <input type="hidden" name="date" value="<?php echo htmlspecialchars($date); ?>" />
                                 <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> part_certi</button>
                             </form>
+                            <?php
+                        }
+                        ?>
                         </div>
 
+    </div>
 
-                        <?php
-                        echo '</div>';
-                        ?>
-                <?php
+<?php
 
                         echo '
                         <div class="inbx">
@@ -320,21 +353,21 @@ $t = "t";
                     }
                 }
 
-                ?>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-            </div>
-            <div id="x">
-                <!-- <p>xxxxxxxx</p> -->
-            </div>
+</div>
+<div id="x">
+    <!-- <p>xxxxxxxx</p> -->
+</div>
 
-        </section>
-    </div>
-    <script>
+</section>
+</div>
+<script>
 
 
-    </script>
+</script>
 
 </body>
 

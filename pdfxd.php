@@ -5,16 +5,34 @@ require 'vendor/autoload.php';
 use Mpdf\Mpdf;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  
+
     $name = htmlspecialchars($_POST['name']);
 
-$mpdf = new Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
+    $trainer_name_str = $_POST['trainer_name'];
+    $trainer_name = explode(',', $trainer_name_str);
 
-// $html = file_get_contents('sample/pdfx.php');
+    $trainer_sign_str = $_POST['trainer_sign'];
+    $trainer_sign = explode(',', $trainer_sign_str);
 
-// $mpdf->WriteHTML($html);
+    $count = count($trainer_sign);
 
-$html = '
+    $mpdf = new Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
+
+    // $html = file_get_contents('sample/pdfx.php');
+
+    // $mpdf->WriteHTML($html);
+    for ($i = 0; $i < $count; $i++) {
+        $valx .= '
+            <td>
+                <div>
+                    <img src="db_img/'.htmlspecialchars($trainer_sign[$i]).'" alt="Signature" class="signature">
+                    <p><strong>'.htmlspecialchars($trainer_name[$i]).'</strong></p>
+                    <p>Chief Operating Officer, Parul Sevashram Hospital</p>
+                </div>
+            </td>
+        ';
+    }   
+    $html = '
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,26 +124,13 @@ $html = '
         </div>
         <div class="content">
             <p>This certificate is awarded to</p>
-            <p class="highlight">'.$name.'</p>
+            <p class="highlight">' . $name . '</p>
             <p>with gratitude for his/her dedication towards the hospital. Your hard work, empathy, & expertise have played a pivotal role in providing exceptional healthcare services. Your contributions towards the betterment of patient care & the smooth functioning of the hospital are invaluable and greatly appreciated.</p>
         </div>
         <div class="footer">
-            <table style="width: 100%;">
+            <table style="width: 100%;"> 
                 <tr>
-                    <td>
-                        <div>
-                            <img src="img/tempsign.png" alt="Signature" class="signature">
-                            <p><strong>Etka Modi</strong></p>
-                            <p>Chief Operating Officer, Parul Sevashram Hospital</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <img src="img/tempsign.png" alt="Signature" class="signature">
-                            <p><strong>Dr. A. K. Saxena</strong></p>
-                            <p>Medical Superintendent, Parul Sevashram Hospital</p>
-                        </div>
-                    </td>
+                '.$valx.'
                 </tr>
             </table>
         </div>
@@ -135,13 +140,12 @@ $html = '
 
 ';
 
-$mpdf->WriteHTML($html);
+    $mpdf->WriteHTML($html);
 
-$fnm = uniqid('Certi_', true);
+    $fnm = uniqid('Certi_', true);
 
-$mpdf->Output($fnm.'.pdf', 'D'); // 'I' for inline, 'D' for download
-}
-else{
+    $mpdf->Output($fnm . '.pdf', 'D'); // 'I' for inline, 'D' for download
+} else {
     header('Location: user_login.php');
     exit;
 }

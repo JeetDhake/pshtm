@@ -1,6 +1,4 @@
-
-
-function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
+function MultiSelectTag(el, customs = { shadow: false, rounded: true, required: false }) {
     var element = null
     var options = null
     var customSelectContainer = null
@@ -46,31 +44,25 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
                 removeTag(child.dataset.value)
                 setValues()
             }
-
         })
 
         window.addEventListener('click', (e) => {
             if (!customSelectContainer.contains(e.target)) {
                 drawer.classList.add('hidden')
             }
-        });
-
+        })
     }
 
     function createElements() {
-        // Create custom elements
-        options = getOptions();
+        options = getOptions()
         element.classList.add('hidden')
 
-        // .multi-select-tag
         customSelectContainer = document.createElement('div')
         customSelectContainer.classList.add('mult-select-tag')
 
-        // .container
         wrapper = document.createElement('div')
         wrapper.classList.add('wrapper')
 
-        // body
         body = document.createElement('div')
         body.classList.add('body')
         if (customs.shadow) {
@@ -80,11 +72,9 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
             body.classList.add('rounded')
         }
 
-        // .input-container
         inputContainer = document.createElement('div')
         inputContainer.classList.add('input-container')
 
-        // input
         input = document.createElement('input')
         input.classList.add('input')
         input.placeholder = `${customs.placeholder || 'Search...'}`
@@ -95,11 +85,9 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
 
         body.append(inputContainer)
 
-        // .btn-container
         btnContainer = document.createElement('div')
         btnContainer.classList.add('btn-container')
 
-        // button
         button = document.createElement('button')
         button.type = 'button'
         btnContainer.append(button)
@@ -107,7 +95,6 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
         const icon = domParser.parseFromString(`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="18 15 12 21 6 15"></polyline></svg>`, 'image/svg+xml').documentElement
         button.append(icon)
-
 
         body.append(btnContainer)
         wrapper.append(body)
@@ -128,7 +115,6 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
         customSelectContainer.appendChild(wrapper)
         customSelectContainer.appendChild(drawer)
 
-        // Place TailwindTagSelection after the element
         if (element.nextSibling) {
             element.parentNode.insertBefore(customSelectContainer, element.nextSibling)
         }
@@ -148,7 +134,6 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
                 li.innerHTML = option.label
                 li.dataset.value = option.value
 
-                // For search
                 if (val && option.label.toLowerCase().startsWith(val.toLowerCase())) {
                     ul.appendChild(li)
                 }
@@ -160,7 +145,6 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
     }
 
     function createTag(option) {
-        // Create and show selected item as tag
         const itemDiv = document.createElement('div');
         itemDiv.classList.add('item-container');
         itemDiv.style.color = tagColor.textColor || '#2c7a7b'
@@ -190,7 +174,6 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
     }
 
     function enableItemSelection() {
-        // Add click listener to the list items
         for (var li of ul.children) {
             li.addEventListener('click', (e) => {
                 options.find((o) => o.value == e.target.dataset.value).selected = true
@@ -203,7 +186,6 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
     }
 
     function isTagSelected(val) {
-        // If the item is already selected
         for (var child of inputContainer.children) {
             if (!child.classList.contains('input-body') && child.firstChild.dataset.value == val) {
                 return true
@@ -211,8 +193,8 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
         }
         return false
     }
+
     function removeTag(val) {
-        // Remove selected item
         for (var child of inputContainer.children) {
             if (!child.classList.contains('input-body') && child.firstChild.dataset.value == val) {
                 inputContainer.removeChild(child)
@@ -221,20 +203,33 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
     }
 
     function setValues(fireEvent = true) {
-        // Update element final values
         selected_values = []
+        let selectedCount = 0
+
         for (var i = 0; i < options.length; i++) {
             element.options[i].selected = options[i].selected
             if (options[i].selected) {
                 selected_values.push({ label: options[i].label, value: options[i].value })
+                selectedCount++
             }
         }
+
+        // If no options are selected and this field is required, show error
+        if (customs.required && selectedCount === 0) {
+            element.classList.add('is-invalid') // Add invalid class for styling (optional)
+            if (customs.onValidationError) {
+                customs.onValidationError('This field is required')
+            }
+        } else {
+            element.classList.remove('is-invalid') // Remove invalid class if valid
+        }
+
         if (fireEvent && customs.hasOwnProperty('onChange')) {
             customs.onChange(selected_values)
         }
     }
+
     function getOptions() {
-        // Map element options
         return [...element.options].map((op) => {
             return {
                 value: op.value,

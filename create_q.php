@@ -25,7 +25,14 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-    <?php require_once("navbar.html") ?>
+<?php
+    if (isset($_SESSION['admin_id'])) {
+        require_once("navbar.html");
+    }
+    elseif (isset($_SESSION['trainer_id'])) {
+        require_once("navbar2.html");
+    }
+    ?>
     <?php require_once("sidebartr.html") ?>
 
     <div class="container">

@@ -9,7 +9,10 @@ body{
     top: 0;
 
 }
-
+.outform{
+    display: flex;
+    justify-content: space-between;
+}
 .apf{
     display: flex;
     align-items: center;
@@ -18,23 +21,42 @@ body{
 
     padding-left: 27%;
 }
-
+#employee_checkbox_container{
+    margin-top: 10px;
+    overflow: auto;
+    height: 225px;
+}
 .wrapper{
     background: #fff;
     width: 650px;
     border-radius: 16px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
 }
+.wrapperx{
+    background: #fff;
+    width: 1000px;
+    border-radius: 16px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
+}
+.pdx{
+    width: 550px;
+}
 .se{
     background: #fff;
     width: 350px;
-    height: 600px;
+    /* height: 600px; */
     border-radius: 16px;
     margin: 15px;
     padding: 10px;
- 
+    
+    overflow: auto;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3), 0 12px 64px -68px rgba(0,0,0,0.5);
 }
+
+#sign{
+    display: none;
+}
+
 *::-webkit-scrollbar {
     width: 4px;
    
@@ -61,8 +83,10 @@ body{
     height: 550px;
   }
 
+  
+
 .pst{
-    padding: 25px 30px;
+    padding: 15px 25px;
 
 }
 .pst header{
@@ -71,7 +95,7 @@ body{
     border-bottom: 1px solid #e6e6e6;
 }
 .pst form{
-    margin: 20px 0;
+    margin: 10px 0;
 
 }
 .in{

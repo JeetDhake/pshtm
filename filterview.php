@@ -2,7 +2,7 @@
 
 include('connect.php');
 session_start();
-if (!isset($_SESSION['admin_id'])) {
+if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     header("location: admin_login.php");
 }
 ?>
@@ -162,7 +162,7 @@ if (!isset($_SESSION['admin_id'])) {
                                     $st = $_GET['start'];
                                     $en = $_GET['end'];
                                     $trid = array();
-                                    $rep = "SELECT training_program_id FROM training_reports WHERE start_date BETWEEN '$st' AND '$en' ";
+                                    $rep = "SELECT training_program_id FROM training_reports WHERE date BETWEEN '$st' AND '$en' ";
                                     $reprun = pg_query($conn, $rep);
                                     while ($row = pg_fetch_assoc($reprun)) {
 

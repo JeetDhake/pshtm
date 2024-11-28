@@ -223,8 +223,9 @@ $t = "t";
                         $sqryz = "SELECT * FROM training_reports WHERE training_program_id = $training_program_id";
                         $rsqryz = pg_query($conn, $sqryz);
                         while($rowz = pg_fetch_assoc($rsqryz)){
-                            $to = $rowz['end_date'];
-                            $from = $rowz['start_date'];
+                            // $to = $rowz['end_date'];
+                            // $from = $rowz['start_date'];
+                            $date = $rowz['date'];
                         }
 
                         // Generate unique IDs for the canvas elements
@@ -277,8 +278,9 @@ $t = "t";
                             </form>
                             <form action="pdfyd.php" method="POST">
                                 <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>" />
-                                <input type="hidden" name="from" value="<?php echo htmlspecialchars($from); ?>" />
-                                <input type="hidden" name="to" value="<?php echo htmlspecialchars($to); ?>" />
+                                <!-- <input type="hidden" name="from" value="<?php //echo htmlspecialchars($from); ?>" />
+                                <input type="hidden" name="to" value="<?php //echo htmlspecialchars($to); ?>" /> -->
+                                <input type="hidden" name="date" value="<?php echo htmlspecialchars($date); ?>" />
                                 <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> part_certi</button>
                             </form>
                         </div>

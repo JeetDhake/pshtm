@@ -7,14 +7,34 @@ use Mpdf\Mpdf;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $name = htmlspecialchars($_POST['name']);
-    $from = $_POST['from'];
-    $to = $_POST['to'];
+    // $from = $_POST['from'];
+    // $to = $_POST['to'];
+    $date = $_POST['date'];
+
+    $trainer_name_str = $_POST['trainer_name'];
+    $trainer_name = explode(',', $trainer_name_str);
+
+    $trainer_sign_str = $_POST['trainer_sign'];
+    $trainer_sign = explode(',', $trainer_sign_str);
+
+    $count = count($trainer_sign);
 
 $mpdf = new Mpdf(['mode' => 'utf-8', 'format' => 'A4-L']);
 
 // $html = file_get_contents('sample/pdfx.php');
 
 // $mpdf->WriteHTML($html);
+for ($i = 0; $i < $count; $i++) {
+    $valx .= '
+        <td>
+            <div>
+                <img src="db_img/'.htmlspecialchars($trainer_sign[$i]).'" alt="Signature" class="signature">
+                <p><strong>'.htmlspecialchars($trainer_name[$i]).'</strong></p>
+                <p>Chief Operating Officer, Parul Sevashram Hospital</p>
+            </div>
+        </td>
+    ';
+}
 
 $html = '
 <!DOCTYPE html>
@@ -115,34 +135,14 @@ $html = '
             <p class="highlight">Dr. '.$name.'</p>
             <p>has participated in the</p>
             <p class="highlight">Basic Course in Medical Education (BCME)</p>
-            <p>organized by the Medical Education Unit, Parul Institute of Medical Sciences & Research, Vadodara from</p>
-            <p class="highlight">'.$from.' to '.$to.'</p>
+            <p>organized by the Medical Education Unit, Parul Institute of Medical Sciences & Research, Vadodara on</p>
+            <p class="highlight">'.$date.'</p>
             <p>GUJARAT MEDICAL COUNCIL HAS AWARDED <span class="highlight">NINE</span> CREDIT HOURS FOR THE PARTICIPATION</p>
         </div>
         <div class="footer">
                         <table style="width: 100%;">
                 <tr>
-                    <td>
-                        <div>
-                            <img src="img/tempsign.png" alt="" class="signature">
-                            <p><strong>Dr. Jagdish Gohil</strong></p>
-                            <p>Dean PIMSR, Vadodara</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <img src="img/tempsign.png" alt="" class="signature">
-                            <p><strong>Dr. V. P. Hathila</strong></p>
-                            <p>Observer Gujarat Medical Council</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <img src="img/tempsign.png" alt="" class="signature">
-                            <p><strong>Dr. Wasim A. Shaikh</strong></p>
-                            <p>Coordinator, MEU, PIMSR, Vadodara</p>
-                        </div>
-                    </td>
+                '.$valx.'
                 </tr>
             </table>
         </div>

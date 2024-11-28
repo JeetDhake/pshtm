@@ -11,8 +11,8 @@ if (isset($_POST['submit'])) {
 
     $training_program_id = $_POST['training_program_id'];
 
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
+    // $start_date = $_POST['start_date'];
+    // $end_date = $_POST['end_date'];
 
     $attendance = $_POST['attendance'];
     $participation = $_POST['participation'];
@@ -26,14 +26,15 @@ if (isset($_POST['submit'])) {
     $fileactext = strtolower(end($fileextention));
     $filenewname = uniqid('', true) . "." . $fileactext;
 
-    if ($training_program_id == '' ||  $start_date == '' || $end_date == '' || $attendance == '' || $completion_rate == '' || $participation == '') {
+    if ($training_program_id == '' || $attendance == '' || $completion_rate == '' || $participation == '') {
         echo "<script>
             alert('enter all fields')
             </script>";
         exit();
     } else {
+        $today = date('d-m-Y');
 
-        $insert = "INSERT INTO training_reports (training_program_id, start_date, end_date, attendance, participation, completion_rate) VALUES ('$training_program_id', '$start_date', '$end_date', '$attendance', '$participation','$completion_rate')RETURNING training_program_id";
+        $insert = "INSERT INTO training_reports (training_program_id, attendance, participation, completion_rate, date) VALUES ('$training_program_id', '$attendance', '$participation','$completion_rate','$today')RETURNING training_program_id";
         $result_query = pg_query($conn, $insert);
 
         if (!$result_query) {
@@ -52,28 +53,28 @@ if (isset($_POST['submit'])) {
             die("Error: " . pg_last_error($conn));
         }
 
-
-
-        $emp_id = $_POST['employee_id'];
-        $query = "SELECT 
+        $idid = $_SESSION['admin_id'];
+        if ($idid == 911) {
+            $emp_id = $_POST['employee_id'];
+            $query = "SELECT 
             AVG(employee_performance) AS avg_emp_perf,
             AVG(questionnaire1_result) AS avg_que1_res,
             AVG(questionnaire2_result) AS avg_que2_res
           FROM employee_reports WHERE training_program_id = $training_program_id";
-        $result_avg = pg_query($conn, $query);
-        $avgrow = pg_fetch_assoc($result_avg);
+            $result_avg = pg_query($conn, $query);
+            $avgrow = pg_fetch_assoc($result_avg);
 
-        $avg_p = (int)$avgrow['avg_emp_perf'];
-        $avg_1 = (int)$avgrow['avg_que1_res'];
-        $avg_2 = (int)$avgrow['avg_que2_res'];
+            $avg_p = (int)$avgrow['avg_emp_perf'];
+            $avg_1 = (int)$avgrow['avg_que1_res'];
+            $avg_2 = (int)$avgrow['avg_que2_res'];
 
 
-        foreach ($emp_id as $emplist) {
-            $insert1 = "INSERT INTO employee_reports (emp_id, training_program_id, employee_performance, questionnaire1_result, questionnaire2_result)
+            foreach ($emp_id as $emplist) {
+                $insert1 = "INSERT INTO employee_reports (emp_id, training_program_id, employee_performance, questionnaire1_result, questionnaire2_result)
                         VALUES ($emplist, $training_program_id, '$avg_p', '$avg_1', '$avg_2') ";
-            $res = pg_query($conn, $insert1);
+                $res = pg_query($conn, $insert1);
+            }
         }
-
         if ($result_query && $result_query2) {
 
             echo "<script>
@@ -99,7 +100,14 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-    <?php require_once("navbar.html") ?>
+<?php
+    if (isset($_SESSION['admin_id'])) {
+        require_once("navbar.html");
+    }
+    elseif (isset($_SESSION['trainer_id'])) {
+        require_once("navbar2.html");
+    }
+    ?>
     <?php require_once("sidebartr.html") ?>
 
     <div class="container">
@@ -146,7 +154,7 @@ WHERE s.training_program_id NOT IN (
                         </div>
 
 
-                        <div class="f">
+                        <!-- <div class="f">
                             <div class="fld">
                                 <label for="">Start Date</label>
                                 <input type="date" name="start_date" id="start_date" placeholder="Enter No Of Days" required>
@@ -157,11 +165,14 @@ WHERE s.training_program_id NOT IN (
                                 <input type="date" name="end_date" id="end_date" placeholder="Enter No Of Days" required>
                             </div>
 
-                        </div>
+                        </div> -->
                         <?php
-                        $idid = $_SESSION['admin_id'];
+                        if(isset($_SESSION['admin_id'])){
+                            $idid = $_SESSION['admin_id'];
 
-                        if ($idid == 911) {
+                            if ($idid == 911) {
+                        
+                        
 
                         ?>
                             <div class="fld">
@@ -187,6 +198,7 @@ WHERE s.training_program_id NOT IN (
                                 </select>
                             </div>
                         <?php
+                            }
                         }
                         ?>
                         <div class="f">

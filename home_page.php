@@ -76,8 +76,39 @@ while ($row11 = pg_fetch_assoc($res11)) {
                                             <p class="hx"><?php echo $row2['training_desc']; ?></p>
                                         </div>
                                         <div class="rg">
-                                            <button onclick="action('pre', <?php echo $tr_id; ?>)" class="btnx">Pre Exam</button>
-                                            <button onclick="action('post', <?php echo $tr_id; ?>)" class="btnx">Post Exam</button>
+                                            <?php
+                                            if ($row2['pre_status'] == "pending") {
+                                            ?>
+                                                <button class="btnx">Pre Exam (available soon) </button>
+                                            <?php
+                                            }
+                                            elseif ($row2['pre_status'] == "started") {
+                                            ?>
+                                                    <button onclick="action('pre', <?php echo $tr_id; ?>)" class="btnx">Enter Pre Exam</button>
+                                            <?php
+                                            }
+                                            elseif ($row2['pre_status'] == "finished") {
+                                            ?>
+                                                    <button class="btnx">Pre Exam Ended</button>
+                                            <?php
+                                            }
+                                            
+                                            if ($row2['post_status'] == "pending") {
+                                            ?>
+                                                <button class="btnx">Post Exam (available soon)</button>
+                                            <?php
+                                            }
+                                            elseif ($row2['post_status'] == "started") {
+                                            ?>
+                                                <button onclick="action('post', <?php echo $tr_id; ?>)" class="btnx">Enter Post Exam</button>
+                                            <?php
+                                            }
+                                            elseif ($row2['post_status'] == "finished") {
+                                            ?>
+                                                <button class="btnx">Post Exam Ended</button>
+                                            <?php
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>

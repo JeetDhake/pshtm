@@ -194,3 +194,10 @@ td{
 a{
     text-decoration: none;
 }
+
+#start-exam-btn, #end-exam-btn{
+    background: transparent;
+    padding: 5px;
+    border: 1px solid #555;
+    border-radius: 5px;
+}

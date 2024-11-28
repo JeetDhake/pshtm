@@ -130,8 +130,9 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                         <h5>No Data Available</h5>';
                             } else {
                                 $xx1 = array_sum($xx) / count($xx);
+                                $xx007 =number_format($xx1, 2);
                                 echo '<h2>Growth Rate</h2>
-                        <h1>' .  $xx1 . '</h1>';
+                        <h1>' .  $xx007 . '</h1>';
                             }
 
                             ?>
