@@ -23,7 +23,13 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
 </head>
 
 <body>
-    <?php require_once("navbar.html") ?>
+    <?php
+    if (isset($_SESSION['admin_id'])) {
+        require_once("navbar.html");
+    } elseif (isset($_SESSION['trainer_id'])) {
+        require_once("navbar2.html");
+    }
+    ?>
     <?php require_once("sidebana.html") ?>
     <div class="container">
         <div class="xo">

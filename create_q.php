@@ -25,12 +25,12 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body>
-<?php
+    <?php
     if (isset($_SESSION['admin_id'])) {
         require_once("navbar.html");
-    }
-    elseif (isset($_SESSION['trainer_id'])) {
+    } elseif (isset($_SESSION['trainer_id'])) {
         require_once("navbar2.html");
+        $trainer_id = $_SESSION['trainer_id'];
     }
     ?>
     <?php require_once("sidebartr.html") ?>
@@ -60,10 +60,31 @@ if (isset($_POST['submit'])) {
                                 $result_query = pg_query($conn, $select_query);
 
                                 while ($row = pg_fetch_assoc($result_query)) {
+
                                     $training_program_id = $row['training_program_id'];
                                     $training_name = $row['name'];
 
-                                    echo "<option value='$training_program_id'>$training_name</option>";
+                                    if (isset($_SESSION['trainer_id'])) {
+                                        $trsql = "SELECT * FROM training_trainer_relation WHERE trainer_id = $trainer_id AND training_program_id = $training_program_id";
+                                        $res_q = pg_query($conn, $trsql);
+
+                                        if ($res_q) {
+                                            
+                                            if (pg_num_rows($res_q) > 0) {
+                                              
+                                                while ($row1 = pg_fetch_assoc($res_q)) {
+                                                  
+                                                $training_program_id1 = $row1['training_program_id'];
+                                                }
+                                                echo "<option value='$training_program_id1'>$training_name</option>";
+                                            }
+                                        }
+                                        
+                                    }
+                                    if (isset($_SESSION['admin_id'])) {
+                                        echo "<option value='$training_program_id'>$training_name</option>";
+                                    }
+                                    
                                 }
 
                                 ?>

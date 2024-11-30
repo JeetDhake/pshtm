@@ -38,17 +38,21 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                         <th class="ly">Training Program Name</th>
 
                         <th>Update</th>
-
-                        <th>start pre exam</th>
-                        <th>end pre exam</th>
-                        <th>start post exam</th>
-                        <th>end post exam</th>
-
+                        <?php
+                        if (isset($_SESSION['trainer_id'])) {
+                        ?>
+                            <th>start pre exam</th>
+                            <th>end pre exam</th>
+                            <th>start post exam</th>
+                            <th>end post exam</th>
+                        <?php
+                        }
+                        ?>
 
                     </tr>
                 </thead>
             </table>
-            <div class="tbd">
+            <div class="tbd scrl">
                 <table>
                     <?php
 
@@ -83,21 +87,30 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                     }
 
                     if (isset($_SESSION['trainer_id'])) {
-                        $triner_id = $_SESSION['trainer_id'];
+                        $trainer_id = $_SESSION['trainer_id'];
 
-                        $select_query1 = "SELECT DISTINCT * FROM training_trainer_relation WHERE trainer_id = $triner_id";
+                        $select_query1 = "SELECT DISTINCT * FROM training_trainer_relation WHERE trainer_id = $trainer_id";
                         $result_query1 = pg_query($conn, $select_query1);
 
                         while ($row1 = pg_fetch_assoc($result_query1)) {
 
                             $training_id = $row1['training_program_id'];
 
-                            $select_query = "SELECT DISTINCT * FROM create_training_programs WHERE training_program_id = $training_id";
+                            $select_query = "SELECT DISTINCT ctp.*
+FROM create_training_programs ctp
+WHERE ctp.training_program_id = $training_id
+  AND NOT EXISTS (
+      SELECT 1
+      FROM training_reports tr
+      WHERE tr.training_program_id = ctp.training_program_id
+  );
+
+";
                             $result_query = pg_query($conn, $select_query);
 
                             while ($row = pg_fetch_assoc($result_query)) {
                                 $training_name = $row['name'];
-                                $training_id = $row['training_program_id'];
+                                $training_idx = $row['training_program_id'];
 
                                 $started = "started";
                                 $finished = "finished";
@@ -105,23 +118,23 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                 <tbody>  
                     <tr>
                         <td class='ly'>
-                            <a href='view_tr.php?training_program_id=$training_id'>
+                            <a href='view_tr.php?training_program_id=$training_idx'>
                                 <p>$training_name</p>
                             </a>
                         </td>
                         "; ?>
 
                                 <td>
-                                    <button id="start-exam-btn" onclick="updateExamStatus(<?php echo $training_id; ?>, 'started', 'pre');">Start pre Exam</button>
+                                    <button id="start-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'started', 'pre');">Start pre Exam</button>
                                 </td>
                                 <td>
-                                    <button id="end-exam-btn" onclick="updateExamStatus(<?php echo $training_id; ?>, 'finished', 'pre');">End pre Exam</button>
+                                    <button id="end-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'finished', 'pre');">End pre Exam</button>
                                 </td>
                                 <td>
-                                    <button id="start-exam-btn" onclick="updateExamStatus(<?php echo $training_id; ?>, 'started', 'post');">Start post Exam</button>
+                                    <button id="start-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'started', 'post');">Start post Exam</button>
                                 </td>
                                 <td>
-                                    <button id="end-exam-btn" onclick="updateExamStatus(<?php echo $training_id; ?>, 'finished', 'post');">End post Exam</button>
+                                    <button id="end-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'finished', 'post');">End post Exam</button>
                                 </td>
 
                     <?php
@@ -170,7 +183,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                     alert("Command fail");
                 }
             };
-            
+
             xhr.onerror = function() {
                 alert("Command fail");
             };

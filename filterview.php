@@ -23,7 +23,13 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
 </head>
 
 <body>
-    <?php require_once("navbar.html") ?>
+    <?php 
+    if (isset($_SESSION['admin_id'])) {
+        require_once("navbar.html");
+    } elseif (isset($_SESSION['trainer_id'])) {
+        require_once("navbar2.html");
+    }
+    ?>
     <?php require_once("sidebana.html") ?>
     <div class="container">
         <div class="xo">
@@ -113,17 +119,24 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                             <table>
                                 <?php
                                 if (isset($_GET['departments'])) {
+
                                     $branchecked = [];
                                     $branchecked = $_GET['departments'];
+                                    $training_ids = [];
+
                                     foreach ($branchecked as $rowbrand) {
                                         $gettr = "SELECT DISTINCT training_program_id FROM training_relations WHERE department_id = $rowbrand";
                                         $gettr_run =  pg_query($conn, $gettr);
                                         while ($row = pg_fetch_assoc($gettr_run)) {
+                                            if (!in_array($row['training_program_id'], $training_ids)) {
+                                                $training_ids[] = $row['training_program_id'];
+                                            }
+                                        }
+                                    }
+                                    foreach ($training_ids as $tr_id_ar) {
 
-                                            $tr_id_ar = $row["training_program_id"];
 
-
-                                            $products = "SELECT DISTINCT * FROM create_training_programs WHERE training_program_id = $tr_id_ar";
+                                            $products = "SELECT * FROM create_training_programs WHERE training_program_id = $tr_id_ar";
                                             $products_run = pg_query($conn, $products);
                                             if (pg_num_rows($products_run) > 0) {
                                                 while ($row = pg_fetch_assoc($products_run)) {
@@ -155,10 +168,10 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                                             }
                                         }
                                     }
-                                }
+                                
 
 
-                                if (isset($_GET['start']) && isset($_GET['end'])) {
+                                elseif (isset($_GET['start']) && isset($_GET['end'])) {
                                     $st = $_GET['start'];
                                     $en = $_GET['end'];
                                     $trid = array();

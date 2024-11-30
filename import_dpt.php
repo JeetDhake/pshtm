@@ -1,5 +1,8 @@
 <?php
 session_start();
+if (!isset($_SESSION['admin_id'])) {
+    header("location: admin_login.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +18,12 @@ session_start();
 
 <body>
     <?php
-    require_once("navbar.html");
+    if (isset($_SESSION['admin_id'])) {
+        require_once("navbar.html");
+    } elseif (isset($_SESSION['trainer_id'])) {
+        require_once("navbar2.html");
+        $trainer_id = $_SESSION['trainer_id'];
+    }
     require_once("sidebarx.html");
     ?>
     <div class="container">

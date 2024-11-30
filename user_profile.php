@@ -6,7 +6,7 @@ if (!isset($_SESSION['emp_id'])) {
 }
 
 $t = "t";
-
+$date = null;
 ?>
 
 

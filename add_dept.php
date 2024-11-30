@@ -18,20 +18,32 @@ if (isset($_POST['submit'])) {
             </script>";
         exit();
     } else {
+        $check = "SELECT * FROM department WHERE department_id = $department_id";
 
-      
+        $res_q = pg_query($conn, $check);
+        if ($res_q) {
+            $num_rows = pg_num_rows($res_q);
 
-        $insert_dept = "INSERT INTO department (department_id,department_name) VALUES ($department_id, '$department_name')";
+            if ($num_rows > 0) {
+                echo "<script>
+                    alert('Department id already exist')
+                  </script>";
+            } else {
 
-        $result_query = pg_query($conn, $insert_dept);
-        if ($result_query) {
 
-            echo "<script>
+                $insert_dept = "INSERT INTO department (department_id,department_name) VALUES ($department_id, '$department_name')";
+
+                $result_query = pg_query($conn, $insert_dept);
+                if ($result_query) {
+
+                    echo "<script>
                 alert('New Department Added successfully')
                 </script>";
-
+                }
+            }
         }
     }
+    
 }
 
 ?>
@@ -67,24 +79,24 @@ if (isset($_POST['submit'])) {
 
                         <div class="">
 
-                        <div class="fld">
+                            <div class="fld">
                                 <label for="">Department Id</label>
                                 <input type="text" name="department_id" id="dept_name long" placeholder="enter dept name"
                                     required><br>
 
-                            <div class="fld">
-                                <label for="">Department Name</label>
-                                <input type="text" name="department_name" id="dept_name long" placeholder="enter dept name"
-                                    required>
+                                <div class="fld">
+                                    <label for="">Department Name</label>
+                                    <input type="text" name="department_name" id="dept_name long" placeholder="enter dept name"
+                                        required>
+
+                                </div>
 
                             </div>
-                          
-                        </div>
 
-                        <div class="fld btn">
-                            <input type="submit" value="Add Department" name="submit" id="submit">
+                            <div class="fld btn">
+                                <input type="submit" value="Add Department" name="submit" id="submit">
+                            </div>
                         </div>
-                    </div>
                 </form>
 
             </section>

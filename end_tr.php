@@ -52,7 +52,7 @@ if (isset($_POST['submit'])) {
         if (!$result_query2) {
             die("Error: " . pg_last_error($conn));
         }
-
+if(isset($_SESSION['admin_id'])){
         $idid = $_SESSION['admin_id'];
         if ($idid == 911) {
             $emp_id = $_POST['employee_id'];
@@ -75,6 +75,7 @@ if (isset($_POST['submit'])) {
                 $res = pg_query($conn, $insert1);
             }
         }
+    }
         if ($result_query && $result_query2) {
 
             echo "<script>
