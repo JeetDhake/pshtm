@@ -186,6 +186,8 @@ $date = null;
                         $tr_name = $rowy['name'];
                         $training_program_id = $rowy['training_program_id'];
 
+                        $date = $rowy['date'];
+
                         echo '<div class="oneinfo" id="' . $training_program_id . '">
                 <h1>' . $tr_name . '</h1>
                 <p>Report and Analytics</p>
@@ -208,10 +210,13 @@ $date = null;
                         }
                         $sqryz = "SELECT * FROM training_reports WHERE training_program_id = $training_program_id";
                         $rsqryz = pg_query($conn, $sqryz);
-                        while ($rowz = pg_fetch_assoc($rsqryz)) {
-                            // $to = $rowz['end_date'];
-                            // $from = $rowz['start_date'];
-                            $date = $rowz['date'];
+                        // while ($rowz = pg_fetch_assoc($rsqryz)) {
+                        //     $to = $rowz['end_date'];
+                        //     $from = $rowz['start_date'];
+                        //     $date = $rowz['date'];
+                        // }
+                        if (pg_num_rows($rsqryz) > 0) {
+                            $rep = true;
                         }
 
 
@@ -273,7 +278,7 @@ $date = null;
                         ?>
                         <div class="fx">
                         <?php
-                        if($date){
+                        if($rep){
                         ?>
                             <form action="pdfxd.php" method="POST">
                                 <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>">

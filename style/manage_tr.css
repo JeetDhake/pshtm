@@ -178,9 +178,7 @@ td{
     padding: 0.2rem 1rem;
     text-align: center;
 }
-tr:nth-child(even){
-    background-color: rgb(203, 244, 255);
-}
+
 
 .lx{
     width: 400px;

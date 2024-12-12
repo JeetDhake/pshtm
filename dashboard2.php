@@ -190,10 +190,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                             <button>Create a Training</button>
                         </a>
 
-                        <a href="add_members.php">
-                            <i class="fa-solid fa-right-from-bracket"></i><br>
-                            <button>Add Admin/Trainer</button>
-                        </a>
+
 
                         <a href="manage_tr.php">
                             <i class="fa-solid fa-layer-group"></i><br>

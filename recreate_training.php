@@ -15,6 +15,7 @@ if (isset($_POST['submit'])) {
         $training_program_id = $_POST['training_program_id'];
         $template_training_id = $_POST['template_training_id'];
 
+        $tr_date = $_POST['tr_date'];
 
         $query1 = "SELECT * FROM create_training_programs WHERE training_program_id = $template_training_id";
         $result1 = pg_query($conn, $query1);
@@ -33,7 +34,7 @@ if (isset($_POST['submit'])) {
         $emp_idx = isset($_POST['emp_id']) ? $_POST['emp_id'] : [];
         if (empty($emp_idx)) {
             echo "<script>alert('Please select at least one employee');</script>";
-            header("location: recreate_training.php");
+            // header("location: recreate_training.php");
             exit();
         }
 
@@ -61,8 +62,8 @@ if (isset($_POST['submit'])) {
         } else {
 
 
-            $insert = "INSERT INTO create_training_programs (training_program_id, name, training_desc, training_status) 
-                       VALUES ($training_program_id, '$training_name', '$tr_desc', '$status') RETURNING training_program_id";
+            $insert = "INSERT INTO create_training_programs (training_program_id, name, training_desc, training_status, date) 
+                       VALUES ($training_program_id, '$training_name', '$tr_desc', '$status', '$tr_date') RETURNING training_program_id";
             $result_query = pg_query($conn, $insert);
             if (!$result_query) {
                 throw new Exception("Error in creating training program: " . pg_last_error($conn));
@@ -149,12 +150,11 @@ if (isset($_POST['submit'])) {
     <?php
     if (isset($_SESSION['admin_id'])) {
         require_once("navbar.html");
-    }
-    elseif (isset($_SESSION['trainer_id'])) {
+    } elseif (isset($_SESSION['trainer_id'])) {
         require_once("navbar2.html");
     }
     ?>
-    
+
     <?php require_once("sidebartr.html") ?>
 
     <div class="container">
@@ -168,9 +168,15 @@ if (isset($_POST['submit'])) {
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="outform">
                         <div class="pdetail pdx">
-                            <div class="fld">
-                                <label for="">Training Program Id</label>
-                                <input type="number" name="training_program_id" id="training_program_id" placeholder="Enter New Training Id" required>
+                            <div class="f">
+                                <div class="fld">
+                                    <label for="training_program_id">Training Program Id</label>
+                                    <input type="number" name="training_program_id" id="training_program_id" placeholder="Enter Training id" required>
+                                </div>
+                                <div class="fld">
+                                    <label for="training_program_id">Schedule date</label>
+                                    <input type="date" id="tr_date" name="tr_date" required>
+                                </div>
                             </div>
 
                             <div class="fld">
@@ -283,7 +289,7 @@ if (isset($_POST['submit'])) {
                             <div class="si">
 
                                 <label for="emp_id">Employee</label>
-                                <select name="emp_id[]" id="emp_id" multiple required>
+                                <select name="emp_id[]" id="emp_id" multiple>
 
                                     <?php
                                     $select_query = "SELECT * FROM employee_records";
@@ -320,7 +326,7 @@ if (isset($_POST['submit'])) {
                 }
             });
             new MultiSelectTag('trainer_id');
-            
+
             new MultiSelectTag('emp_id');
 
         });

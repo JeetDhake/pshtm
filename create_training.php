@@ -14,7 +14,9 @@ if (isset($_POST['submit'])) {
     $dept_id = $_POST['department_id'];
     $job_post_id = $_POST['job_post_id'];
 
-    $emp_idx = isset($_POST['emp_id']) ? $_POST['emp_id'] : [];
+    $tr_date = $_POST['tr_date'];
+
+        $emp_idx = isset($_POST['emp_id']) ? $_POST['emp_id'] : [];
     if (empty($emp_idx)) {
         echo "<script>alert('Please select at least one employee');</script>";
         // header("location: create_training.php");
@@ -24,7 +26,7 @@ if (isset($_POST['submit'])) {
     $unique_numbers = array_unique($emp_idx);
 
     $emp_id = array_values($unique_numbers);
-    
+
     $trainer_id = $_POST['trainer_id'];
 
     $status = "true";
@@ -44,7 +46,7 @@ if (isset($_POST['submit'])) {
         pg_query($conn, "BEGIN");
 
         try {
-            $insert = "INSERT INTO create_training_programs (training_program_id, name, training_desc, training_status) VALUES ($training_program_id, '$training_name', '$tr_desc', '$status')RETURNING training_program_id";
+            $insert = "INSERT INTO create_training_programs (training_program_id, name, training_desc, training_status, date) VALUES ($training_program_id, '$training_name', '$tr_desc', '$status', '$tr_date')RETURNING training_program_id";
             $result_query = pg_query($conn, $insert);
 
             if (!$result_query) {
@@ -124,10 +126,17 @@ if (isset($_POST['submit'])) {
                     <div class="outform">
 
                         <div class="pdetail pdx">
-                            <div class="fld">
-                                <label for="training_program_id">Training Program Id</label>
-                                <input type="number" name="training_program_id" id="training_program_id" placeholder="Enter Training id" required>
+                            <div class="f">
+                                <div class="fld">
+                                    <label for="training_program_id">Training Program Id</label>
+                                    <input type="number" name="training_program_id" id="training_program_id" placeholder="Enter Training id" required>
+                                </div>
+                                <div class="fld">
+                                    <label for="training_program_id">Schedule date</label>
+                                    <input type="date" id="tr_date" name="tr_date" required>
+                                </div>
                             </div>
+
 
                             <div class="fld">
                                 <label for="training_name">Training Title</label>

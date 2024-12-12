@@ -32,9 +32,8 @@ if (isset($_POST['submit'])) {
             </script>";
         exit();
     } else {
-        $today = date('d-m-Y');
 
-        $insert = "INSERT INTO training_reports (training_program_id, attendance, participation, completion_rate, date) VALUES ('$training_program_id', '$attendance', '$participation','$completion_rate','$today')RETURNING training_program_id";
+        $insert = "INSERT INTO training_reports (training_program_id, attendance, participation, completion_rate) VALUES ('$training_program_id', '$attendance', '$participation','$completion_rate')RETURNING training_program_id";
         $result_query = pg_query($conn, $insert);
 
         if (!$result_query) {
@@ -52,30 +51,30 @@ if (isset($_POST['submit'])) {
         if (!$result_query2) {
             die("Error: " . pg_last_error($conn));
         }
-if(isset($_SESSION['admin_id'])){
-        $idid = $_SESSION['admin_id'];
-        if ($idid == 911) {
-            $emp_id = $_POST['employee_id'];
-            $query = "SELECT 
+        if (isset($_SESSION['admin_id'])) {
+            $idid = $_SESSION['admin_id'];
+            if ($idid == 911) {
+                $emp_id = $_POST['employee_id'];
+                $query = "SELECT 
             AVG(employee_performance) AS avg_emp_perf,
             AVG(questionnaire1_result) AS avg_que1_res,
             AVG(questionnaire2_result) AS avg_que2_res
           FROM employee_reports WHERE training_program_id = $training_program_id";
-            $result_avg = pg_query($conn, $query);
-            $avgrow = pg_fetch_assoc($result_avg);
+                $result_avg = pg_query($conn, $query);
+                $avgrow = pg_fetch_assoc($result_avg);
 
-            $avg_p = (int)$avgrow['avg_emp_perf'];
-            $avg_1 = (int)$avgrow['avg_que1_res'];
-            $avg_2 = (int)$avgrow['avg_que2_res'];
+                $avg_p = (int)$avgrow['avg_emp_perf'];
+                $avg_1 = (int)$avgrow['avg_que1_res'];
+                $avg_2 = (int)$avgrow['avg_que2_res'];
 
 
-            foreach ($emp_id as $emplist) {
-                $insert1 = "INSERT INTO employee_reports (emp_id, training_program_id, employee_performance, questionnaire1_result, questionnaire2_result)
+                foreach ($emp_id as $emplist) {
+                    $insert1 = "INSERT INTO employee_reports (emp_id, training_program_id, employee_performance, questionnaire1_result, questionnaire2_result)
                         VALUES ($emplist, $training_program_id, '$avg_p', '$avg_1', '$avg_2') ";
-                $res = pg_query($conn, $insert1);
+                    $res = pg_query($conn, $insert1);
+                }
             }
         }
-    }
         if ($result_query && $result_query2) {
 
             echo "<script>
@@ -101,11 +100,10 @@ if(isset($_SESSION['admin_id'])){
 </head>
 
 <body>
-<?php
+    <?php
     if (isset($_SESSION['admin_id'])) {
         require_once("navbar.html");
-    }
-    elseif (isset($_SESSION['trainer_id'])) {
+    } elseif (isset($_SESSION['trainer_id'])) {
         require_once("navbar2.html");
     }
     ?>
@@ -132,23 +130,48 @@ if(isset($_SESSION['admin_id'])){
                                 <option value="">Select Training</option>
 
                                 <?php
+                                if (isset($_SESSION['trainer_id'])) {
+                                    $trnr_id = $_SESSION['trainer_id'];
 
+                                    $gettrid_query = "SELECT * FROM training_trainer_relation WHERE trainer_id = $trnr_id";
+                                    $gettrid_res = pg_query($conn, $gettrid_query);
+                                    while ($rowid = pg_fetch_assoc($gettrid_res)) {
+                                        $train_id = $rowid['training_program_id'];
 
-                                $select_query = "SELECT s.training_program_id, s.name
+                                        $select_query = "SELECT s.training_program_id, s.name
 FROM create_training_programs s
 WHERE s.training_program_id NOT IN (
     SELECT p.training_program_id
-    FROM training_reports p
-);";
-                                $result_query = pg_query($conn, $select_query);
+    FROM training_reports p 
+) AND s.date < CURRENT_DATE 
+AND s.training_program_id = $train_id;";
+                                        $result_query = pg_query($conn, $select_query);
 
-                                while ($row = pg_fetch_assoc($result_query)) {
-                                    $training_program_id = $row['training_program_id'];
-                                    $training_name = $row['name'];
+                                        while ($row = pg_fetch_assoc($result_query)) {
+                                            $training_program_id = $row['training_program_id'];
+                                            $training_name = $row['name'];
 
-                                    echo "<option value='$training_program_id'>$training_name</option>";
+                                            echo "<option value='$training_program_id'>$training_program_id : $training_name</option>";
+                                        }
+                                    }
                                 }
+                                if (isset($_SESSION['admin_id'])) {
 
+                                    $select_query = "SELECT s.training_program_id, s.name
+FROM create_training_programs s
+WHERE s.training_program_id NOT IN (
+    SELECT p.training_program_id
+    FROM training_reports p 
+) AND s.date < CURRENT_DATE;";
+                                    $result_query = pg_query($conn, $select_query);
+
+                                    while ($row = pg_fetch_assoc($result_query)) {
+                                        $training_program_id = $row['training_program_id'];
+                                        $training_name = $row['name'];
+
+                                        echo "<option value='$training_program_id'>$training_program_id : $training_name</option>";
+                                    }
+                                }
 
                                 ?>
                             </select>
@@ -168,36 +191,36 @@ WHERE s.training_program_id NOT IN (
 
                         </div> -->
                         <?php
-                        if(isset($_SESSION['admin_id'])){
+                        if (isset($_SESSION['admin_id'])) {
                             $idid = $_SESSION['admin_id'];
 
                             if ($idid == 911) {
-                        
-                        
+
+
 
                         ?>
-                            <div class="fld">
-                                <label for="">Auto report Gen</label>
-                                <select name="employee_id[]" id="employee_id" multiple>
-                                    <option value="">Select Employees</option>
+                                <div class="fld">
+                                    <label for="">Auto report Gen</label>
+                                    <select name="employee_id[]" id="employee_id" multiple>
+                                        <option value="">Select Employees</option>
 
-                                    <?php
+                                        <?php
 
-                                    $select_query = "SELECT * FROM employee_records";
-                                    $result_query = pg_query($conn, $select_query);
+                                        $select_query = "SELECT * FROM employee_records";
+                                        $result_query = pg_query($conn, $select_query);
 
-                                    while ($row = pg_fetch_assoc($result_query)) {
-                                        $first_name = $row['emp_first_name'];
-                                        $last_name = $row['emp_last_name'];
-                                        $emp_id = $row['emp_id'];
-                                        $emp_uid = $row['emp_uid'];
+                                        while ($row = pg_fetch_assoc($result_query)) {
+                                            $first_name = $row['emp_first_name'];
+                                            $last_name = $row['emp_last_name'];
+                                            $emp_id = $row['emp_id'];
+                                            $emp_uid = $row['emp_uid'];
 
-                                        echo "<option value='$emp_id'>" . $emp_uid . ": " . $first_name . " " . $last_name . "</option>";
-                                    }
+                                            echo "<option value='$emp_id'>" . $emp_uid . ": " . $first_name . " " . $last_name . "</option>";
+                                        }
 
-                                    ?>
-                                </select>
-                            </div>
+                                        ?>
+                                    </select>
+                                </div>
                         <?php
                             }
                         }

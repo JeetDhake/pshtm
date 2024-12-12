@@ -11,9 +11,38 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
-
+.containerx{
+    display: flex;
+    justify-content: center;
+    padding-left: 16.5%;
+    padding-right: 2.5%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 90vh;
+}
 .lg-container {
     padding-left: 7%;
+}
+.imgbx{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.proofimg{
+    width: 100px;
+    height: auto;
+    padding: 0;
+    margin: 0;
+}
+.xoxi{
+    max-height: 550px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+thead{
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 .xo{
     display: flex;
@@ -146,9 +175,7 @@ th{
 td{
     padding: 1rem 2rem;
 }
-tr:nth-child(even){
-    background-color: rgb(242, 252, 255);
-}
+
 .tit{
     width: 30%;
     color: #349ff6;
@@ -351,9 +378,7 @@ td{
     padding: 0.2rem 1rem;
     text-align: center;
 }
-tr:nth-child(even){
-    background-color: rgb(203, 244, 255);
-}
+
 .lx{
     width: 400px;
 }

@@ -24,7 +24,7 @@ while ($row11 = pg_fetch_assoc($res11)) {
 
     $jp = $row11['job_post_name'];
 }
-
+$today = date('Y-m-d');
 ?>
 
 <!DOCTYPE html>
@@ -48,68 +48,100 @@ while ($row11 = pg_fetch_assoc($res11)) {
                 <h3>Current Training</h3>
             </div>
             <?php
-            // $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE department_id = $e_deptid OR job_post_id = $e_jpid";
-            $sql1 = "SELECT DISTINCT training_program_id FROM training_relations WHERE employee_id = $emp_id";
+
+            $sql1 = "SELECT DISTINCT c.*, c.date 
+FROM training_relations r
+INNER JOIN create_training_programs c ON r.training_program_id = c.training_program_id
+WHERE r.employee_id = $emp_id
+ORDER BY c.date ASC";
+
             $res1 = pg_query($conn, $sql1);
+
             if ($res1) {
                 while ($row1 = pg_fetch_assoc($res1)) {
                     $tr_id = $row1['training_program_id'];
 
-                    $sqly = "SELECT COUNT(*) AS total FROM employee_reports WHERE emp_id = $emp_id AND training_program_id = $tr_id AND employee_performance is not null";
+                    $training_date = $row1['date'];
+
+                    $sqly = "SELECT COUNT(*) AS total 
+        FROM employee_reports 
+        WHERE emp_id = $emp_id 
+          AND training_program_id = $tr_id 
+          AND employee_performance IS NOT NULL";
                     $resy = pg_query($conn, $sqly);
 
-                    $rowy = pg_fetch_assoc($resy);
-                    if ($rowy['total'] == 0) {
+                    if ($resy) {
+                        $rowy = pg_fetch_assoc($resy);
+                        if ($rowy['total'] == 0) {
+                            if ($training_date > $today) {
 
-                        $sql2 = "SELECT * FROM create_training_programs WHERE training_program_id = $tr_id";
-                        $res2 = pg_query($conn, $sql2);
-                        if ($res2) {
-                            while ($row2 = pg_fetch_assoc($res2)) {
             ?>
+
 
                                 <div class="train" id="<?php echo $tr_id; ?>">
                                     <div class="cont">
                                         <div class="lf">
-                                            <h2><?php echo $row2['name']; ?></h2>
+                                            <h2><?php echo $row1['name']; ?></h2>
 
                                             <p>Description: </p>
-                                            <p class="hx"><?php echo $row2['training_desc']; ?></p>
+                                            <p class="hx"><?php echo $row1['training_desc']; ?></p>
+                                            <br>
+                                            <p>date: <?php echo $training_date; ?></p>
                                         </div>
-                                        <div class="rg">
-                                            <?php
-                                            if ($row2['pre_status'] == "pending") {
-                                            ?>
-                                                <button class="btnx">Pre Exam (available soon) </button>
-                                            <?php
-                                            }
-                                            elseif ($row2['pre_status'] == "started") {
-                                            ?>
+                                        <?php
+
+                                        if ($training_date == $today) {
+
+                                        ?>
+                                            <div class="rg">
+                                                <?php
+                                                if ($row1['pre_status'] == "pending") {
+                                                ?>
+                                                    <button class="btnx">Pre Exam (available soon) </button>
+                                                <?php
+                                                } elseif ($row2['pre_status'] == "started") {
+                                                ?>
                                                     <button onclick="action('pre', <?php echo $tr_id; ?>)" class="btnx">Enter Pre Exam</button>
-                                            <?php
-                                            }
-                                            elseif ($row2['pre_status'] == "finished") {
-                                            ?>
+                                                <?php
+                                                } elseif ($row1['pre_status'] == "finished") {
+                                                ?>
                                                     <button class="btnx">Pre Exam Ended</button>
-                                            <?php
-                                            }
-                                            
-                                            if ($row2['post_status'] == "pending") {
-                                            ?>
-                                                <button class="btnx">Post Exam (available soon)</button>
-                                            <?php
-                                            }
-                                            elseif ($row2['post_status'] == "started") {
-                                            ?>
-                                                <button onclick="action('post', <?php echo $tr_id; ?>)" class="btnx">Enter Post Exam</button>
-                                            <?php
-                                            }
-                                            elseif ($row2['post_status'] == "finished") {
-                                            ?>
-                                                <button class="btnx">Post Exam Ended</button>
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
+                                                <?php
+                                                }
+
+                                                if ($row1['post_status'] == "pending") {
+                                                ?>
+                                                    <button class="btnx">Post Exam (available soon)</button>
+                                                <?php
+                                                } elseif ($row1['post_status'] == "started") {
+                                                ?>
+                                                    <button onclick="action('post', <?php echo $tr_id; ?>)" class="btnx">Enter Post Exam</button>
+                                                <?php
+                                                } elseif ($row2['post_status'] == "finished") {
+                                                ?>
+                                                    <button class="btnx">Post Exam Ended</button>
+                                                <?php
+                                                }
+                                                ?>
+                                            </div>
+                                        <?php
+                                        }
+                                        if ($training_date > $today) {
+                                        ?>
+                                            <div class="rg">
+                                                Scheduled on <?php echo $training_date; ?>
+                                                <br>
+                                                yet to start
+                                            </div>
+                                        <?php }
+                                        if ($training_date < $today) {
+                                        ?>
+                                            <div class="rg">
+                                                Was Scheduled on <?php echo $training_date; ?>
+                                                <br>
+                                                Date gone (not given)
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                 </div>
 
@@ -118,11 +150,10 @@ while ($row11 = pg_fetch_assoc($res11)) {
                         }
                     }
                 }
-
-                if (pg_num_rows($res1) == 0) {
-                    echo "<div class='train'><p class='hx'>No Training Available</p></div>";
-                }
+            } else {
+                echo "No training programs found.";
             }
+
             ?>
         </div>
 

@@ -5,6 +5,7 @@ session_start();
 if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     header("location: admin_login.php");
 }
+$today = date('Y-m-d');
 ?>
 
 <!DOCTYPE html>
@@ -30,39 +31,40 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     <?php require_once("sidebartr.html") ?>
     <div class="container">
         <div class="op">
-
-
-            <table>
-                <thead>
-                    <tr>
-                        <th class="ly">Training Program Name</th>
-
-                        <th>Update</th>
-                        <?php
-                        if (isset($_SESSION['trainer_id'])) {
-                        ?>
-                            <th>start pre exam</th>
-                            <th>end pre exam</th>
-                            <th>start post exam</th>
-                            <th>end post exam</th>
-                        <?php
-                        }
-                        ?>
-
-                    </tr>
-                </thead>
-            </table>
             <div class="tbd scrl">
-                <table>
+
+                <table class="tblt">
+                    <thead>
+                        <tr>
+                            <th class="ly">Training Program Name</th>
+
+                            <th>Schedule Date</th>
+                            <?php
+                            if (isset($_SESSION['trainer_id'])) {
+                            ?>
+                                <th>start pre exam</th>
+                                <th>end pre exam</th>
+                                <th>start post exam</th>
+                                <th>end post exam</th>
+                            <?php
+                            }
+                            ?>
+
+                        </tr>
+                    </thead>
+
+
+
                     <?php
 
-                    $select_query = "SELECT DISTINCT * FROM create_training_programs ";
+                    $select_query = "SELECT DISTINCT * FROM create_training_programs ORDER BY date DESC";
                     $result_query = pg_query($conn, $select_query);
 
                     if (isset($_SESSION['admin_id'])) {
                         while ($row = pg_fetch_assoc($result_query)) {
                             $training_name = $row['name'];
                             $training_id = $row['training_program_id'];
+                            $sdate = $row['date'];
 
                             echo "
                 <tbody>  
@@ -70,6 +72,12 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                         <td class='ly'>
                             <a href='view_tr.php?training_program_id=$training_id'>
                                 <p>$training_name</p>
+                            </a>
+                        </td>
+
+                        <td class='ly'>
+                            <a href='view_tr.php?training_program_id=$training_id'>
+                                <p>$sdate</p>
                             </a>
                         </td>
              
@@ -89,7 +97,7 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
                     if (isset($_SESSION['trainer_id'])) {
                         $trainer_id = $_SESSION['trainer_id'];
 
-                        $select_query1 = "SELECT DISTINCT * FROM training_trainer_relation WHERE trainer_id = $trainer_id";
+                        $select_query1 = "SELECT DISTINCT * FROM training_trainer_relation WHERE trainer_id = $trainer_id ";
                         $result_query1 = pg_query($conn, $select_query1);
 
                         while ($row1 = pg_fetch_assoc($result_query1)) {
@@ -102,7 +110,8 @@ WHERE ctp.training_program_id = $training_id
   AND NOT EXISTS (
       SELECT 1
       FROM training_reports tr
-      WHERE tr.training_program_id = ctp.training_program_id
+      WHERE tr.training_program_id = ctp.training_program_id 
+      ORDER BY date DESC
   );
 
 ";
@@ -112,6 +121,7 @@ WHERE ctp.training_program_id = $training_id
                                 $training_name = $row['name'];
                                 $training_idx = $row['training_program_id'];
 
+                                $sdate1 = $row['date'];
                                 $started = "started";
                                 $finished = "finished";
                                 echo "
@@ -122,22 +132,45 @@ WHERE ctp.training_program_id = $training_id
                                 <p>$training_name</p>
                             </a>
                         </td>
-                        "; ?>
+                        <td class='ly'>
+                            <a href='view_tr.php?training_program_id=$training_id'>
+                                <p>$sdate1</p>
+                            </a>
+                        </td>
+                        ";
 
-                                <td>
-                                    <button id="start-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'started', 'pre');">Start pre Exam</button>
-                                </td>
-                                <td>
-                                    <button id="end-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'finished', 'pre');">End pre Exam</button>
-                                </td>
-                                <td>
-                                    <button id="start-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'started', 'post');">Start post Exam</button>
-                                </td>
-                                <td>
-                                    <button id="end-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'finished', 'post');">End post Exam</button>
-                                </td>
-
+                    ?>
+                                <?php if ($sdate1 == $today) { ?>
+                                    <td>
+                                        <button id="start-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'started', 'pre');">Start pre Exam</button>
+                                    </td>
+                                    <td>
+                                        <button id="end-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'finished', 'pre');">End pre Exam</button>
+                                    </td>
+                                    <td>
+                                        <button id="start-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'started', 'post');">Start post Exam</button>
+                                    </td>
+                                    <td>
+                                        <button id="end-exam-btn" onclick="updateExamStatus(<?php echo $training_idx; ?>, 'finished', 'post');">End post Exam</button>
+                                    </td>
+                                <?php } elseif($sdate1 < $today) {?>
+                                    <td>
+                                        date ended
+                                    </td>
+                                    <td>date ended</td>
+                                    <td>date ended</td>
+                                    <td>date ended</td>
+                                <?php } elseif($sdate1 > $today) {?>
+                                    <td>
+                                        yet to start
+                                    </td>
+                                    <td>yet to start</td>
+                                    <td>yet to start</td>
+                                    <td>yet to start</td>
+                                <?php } ?>
                     <?php
+                    
+
                                 echo "
                         <td>
                         <a href='training_edit.php?training_program_id=$training_id'>

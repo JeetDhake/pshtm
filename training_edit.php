@@ -11,7 +11,7 @@ $tr_id = $_GET['training_program_id'];
 $insert = "SELECT * FROM create_training_programs WHERE training_program_id=$tr_id";
 $result_query = pg_query($conn, $insert);
 
-while($rowx = pg_fetch_assoc($result_query)){
+while ($rowx = pg_fetch_assoc($result_query)) {
     $tr_id_old = $rowx['training_program_id'];
     $tr_name_old = $rowx['name'];
     $tr_desc_old = $rowx['training_desc'];
@@ -22,23 +22,22 @@ if (isset($_POST['submit'])) {
     $training_name_nw = pg_escape_string($_POST['name']);
     $tr_desc_nw = pg_escape_string($_POST['tr_desc']);
 
-
+$tr_date_nw = $_POST['tr_date'];
 
     $status = "true";
-    if ($training_name_nw == '' || $tr_desc_nw == '' ) {
+    if ($training_name_nw == '' || $tr_desc_nw == '') {
         echo "<script>
             alert('enter all fields')
             </script>";
         exit();
     } else {
 
-        $insert = "UPDATE create_training_programs SET name='$training_name_nw', training_desc='$tr_desc_nw' WHERE training_program_id = $tr_id_old ";
+        $insert = "UPDATE create_training_programs SET name='$training_name_nw', training_desc='$tr_desc_nw', date='$tr_date_nw' WHERE training_program_id = $tr_id_old ";
         $result_query = pg_query($conn, $insert);
 
         if (!$result_query) {
             die("Error in create_training_programs query: " . pg_last_error($conn));
-        }
-        else{
+        } else {
             echo "<script>
             alert('Updated Successfully')
             </script>";
@@ -69,7 +68,7 @@ if (isset($_POST['submit'])) {
         <div class="wrapper" id="">
             <section class="pst">
                 <header>
-                    Update Training 
+                    Update Training
                 </header>
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="pdetail">
@@ -81,8 +80,12 @@ if (isset($_POST['submit'])) {
 
                         <div class="fld">
                             <label for="">Training Description</label>
-                            <textarea name="tr_desc" id="tr_desc" cols="30" rows="10"  placeholder="<?php echo $tr_desc_old; ?>" value="<?php echo $tr_desc_old; ?>"></textarea>
+                            <textarea name="tr_desc" id="tr_desc" cols="30" rows="10" placeholder="<?php echo $tr_desc_old; ?>" value="<?php echo $tr_desc_old; ?>"></textarea>
 
+                        </div>
+                        <div class="fld">
+                            <label for="training_program_id">Schedule date</label>
+                            <input type="date" id="tr_date" name="tr_date" required>
                         </div>
 
 

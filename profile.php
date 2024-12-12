@@ -124,12 +124,12 @@ $t = "t";
                 <h1 class='name'>
                     <?php echo $row['emp_first_name'] . " " . $row['emp_middle_name'] . " " . $row['emp_last_name'] ?>
                 </h1>
-                  
+
                 <div class="map">
                     <i class="ri-map-pin-fill ri"></i>
                     <span></span>
                 </div>
-                  
+
                 <p><?php $x = $row['emp_status'];
                     if ($x === $t) {
                         echo "Active";
@@ -199,6 +199,7 @@ $t = "t";
                     while ($rowy = pg_fetch_assoc($sqly)) {
                         $tr_name = $rowy['name'];
                         $training_program_id = $rowy['training_program_id'];
+                        $date = $rowy['date'];
 
                         echo '<div class="oneinfo" id="' . $training_program_id . '">
                 <h1>' . $tr_name . '</h1>
@@ -222,12 +223,14 @@ $t = "t";
                         }
                         $sqryz = "SELECT * FROM training_reports WHERE training_program_id = $training_program_id";
                         $rsqryz = pg_query($conn, $sqryz);
-                        while($rowz = pg_fetch_assoc($rsqryz)){
-                            // $to = $rowz['end_date'];
-                            // $from = $rowz['start_date'];
-                            $date = $rowz['date'];
+                        // while($rowz = pg_fetch_assoc($rsqryz)){
+                        //     // // $to = $rowz['end_date'];
+                        //     // // $from = $rowz['start_date'];
+                        //     // $date = $rowz['date'];
+                        // }
+                        if (pg_num_rows($rsqryz) > 0) {
+                            $rep = true;
                         }
-
                         // Generate unique IDs for the canvas elements
                         $canvas_id1 = "mychart_" . $training_program_id . "_1";
                         $canvas_id2 = "mychart_" . $training_program_id . "_2";
@@ -269,34 +272,40 @@ $t = "t";
               <h1 class="heading">questionnaire1_result: ' . number_format($q1, 2) . '</h1><br>
               <h1 class="heading">Performance: ' . number_format($emp_p, 2) . '</h1><br>
                 ';
-              ?>
-                        <div class="fx">
-                            <form action="pdfxd.php" method="POST">
-                                <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>">
+                ?>
+                        <?php
+                        if ($rep) {
+                        ?>
+                            <div class="fx">
+                                <form action="pdfxd.php" method="POST">
+                                    <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>">
 
-                                <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> comp_certi</button>
-                            </form>
-                            <form action="pdfyd.php" method="POST">
-                                <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>" />
-                                <!-- <input type="hidden" name="from" value="<?php //echo htmlspecialchars($from); ?>" />
-                                <input type="hidden" name="to" value="<?php //echo htmlspecialchars($to); ?>" /> -->
-                                <input type="hidden" name="date" value="<?php echo htmlspecialchars($date); ?>" />
-                                <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> part_certi</button>
-                            </form>
-                        </div>
+                                    <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> comp_certi</button>
+                                </form>
+                                <form action="pdfyd.php" method="POST">
+                                    <input type="hidden" name="name" value="<?php echo $row['emp_first_name'] . " " . $row['emp_last_name'] ?>" />
+                                    <!-- <input type="hidden" name="from" value="<?php //echo htmlspecialchars($from); 
+                                                                                    ?>" />
+                                <input type="hidden" name="to" value="<?php //echo htmlspecialchars($to); 
+                                                                        ?>" /> -->
+                                    <input type="hidden" name="date" value="<?php echo htmlspecialchars($date); ?>" />
+                                    <button type="submit" class="ah"><i class="fa-regular fa-floppy-disk"></i> part_certi</button>
+                                </form>
+                            </div>
 
 
                         <?php
+                        }
                         echo '</div>';
                         ?>
 
-                    <?php
+                <?php
                         echo '
                         <div class="inbx">
                         <div class="chartbox cbx">
                 <canvas id="' . $canvas_id2 . '"></canvas>
               </div>';
-                    
+
 
                         echo '<script>
                 var pp2 = [' . json_encode($emp_p) . '];
@@ -324,11 +333,11 @@ $t = "t";
                 );
               </script>';
 
-                        
+
                         echo '<h1 class="heading">questionnaire1_result: ' . number_format($q2, 2) . '</h1><br>
               ';
-              
-                        
+
+
                         echo '<a href="preanswersheet.php?emp_id=' . $emp_id . '&training_program_id=' . $training_program_id . '">
                 <h1 class="linkto">Pre Answer Sheet</h1>
               </a>';
@@ -337,12 +346,12 @@ $t = "t";
                 <h1 class="linkto">Post Answer Sheet</h1>
               </a>';
 
-                        echo '</div></div></div>'; 
+                        echo '</div></div></div>';
                     }
                 }
 
                 ?>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
             </div>
