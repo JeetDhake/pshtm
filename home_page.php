@@ -211,6 +211,69 @@ ORDER BY c.date ASC";
                 }
             }
             ?>
+            <?php
+
+            $sql1 = "SELECT DISTINCT c.*, c.date 
+FROM training_relations r
+INNER JOIN create_training_programs c ON r.training_program_id = c.training_program_id
+WHERE r.employee_id = $emp_id
+ORDER BY c.date ASC";
+
+            $res1 = pg_query($conn, $sql1);
+
+            if ($res1) {
+                while ($row1 = pg_fetch_assoc($res1)) {
+                    $tr_id = $row1['training_program_id'];
+
+                    $training_date = $row1['date'];
+
+                    $sqly = "SELECT COUNT(*) AS total 
+FROM employee_reports 
+WHERE emp_id = $emp_id 
+AND training_program_id = $tr_id 
+AND employee_performance IS NOT NULL";
+                    $resy = pg_query($conn, $sqly);
+
+                    if ($resy) {
+                        $rowy = pg_fetch_assoc($resy);
+                        if ($rowy['total'] == 0) {
+                            if ($training_date < $today) {
+
+            ?>
+
+                                <div class="train" id="<?php echo $tr_id; ?>">
+                                    <div class="cont">
+                                        <div class="lf">
+                                            <h2><?php echo $row1['name']; ?></h2>
+
+                                            <p>Description: </p>
+                                            <p class="hx"><?php echo $row1['training_desc']; ?></p>
+                                            <br>
+                                            <p>date: <?php echo $training_date; ?></p>
+                                        </div>
+
+                                        <?php
+                                        if ($training_date < $today) {
+                                        ?>
+                                            <div class="rg">
+                                                Was Scheduled on <?php echo $training_date; ?>
+                                                <br>
+                                                Date gone (not given)
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+
+            <?php
+                            }
+                        }
+                    }
+                }
+            } else {
+                echo "No training programs found.";
+            }
+
+            ?>
         </div>
     </div>
     <script>

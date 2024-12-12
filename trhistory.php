@@ -35,8 +35,8 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
     ?>
     <div class="containerx">
         <div class="xoxi">
-
-            <table>
+        
+            <table id="myTable">
                 <thead>
                     <tr>
                         <th>Training Program ID</th>
@@ -166,11 +166,12 @@ if (!isset($_SESSION['admin_id']) && !isset($_SESSION['trainer_id'])) {
 
                 </tbody>
             </table>
-
+            <button id="exportBtn">Export to CSV</button>
         </div>
     </div>
 
     <script src="manage.js"></script>
+    <script src="exportcsv_trh.js"></script>
 
 </body>
 
